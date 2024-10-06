@@ -9,6 +9,7 @@
 #
 
 import asyncio
+import aiohttp
 import os
 import time
 from datetime import datetime, timedelta
@@ -97,20 +98,20 @@ class TeleAPI:
 
     async def is_streamable_url(self, url: str) -> bool:
         try:
-            async with httpx.AsyncClient() as client:
-                response = await client.get(url, timeout=5)
-                if response.status_code == 200:
-                    content_type = response.headers.get("Content-Type", "")
-                    if (
-                        "application/vnd.apple.mpegurl" in content_type
-                        or "application/x-mpegURL" in content_type
-                    ):
-                        return True
-                    if url.endswith(".m3u8") or url.endswith(".index"):
-                        return True
-        except httpx.RequestError:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url, timeout=5) as response:
+                    if response.status == 200:
+                        content_type = response.headers.get("Content-Type", "")
+                        if "application/vnd.apple.mpegurl" in content_type or "application/x-mpegURL" in content_type:
+                            return True
+                        if any(keyword in content_type for keyword in ["audio", "video", "mp4", "mpegurl", "m3u8", "mpeg"]):
+                            return True
+                        if url.endswith((".m3u8", ".index", ".mp4", ".mpeg", ".mpd")):
+                            return True
+        except aiohttp.ClientError:
             pass
         return False
+
 
     async def download(self, _, message, mystic, fname):
         left_time = {}

@@ -443,7 +443,7 @@ async def play_commnd(
                 message.chat.id,
                 video=video,
                 streamtype=streamtype,
-                type=type,
+                spotify=spotify,
                 forceplay=fplay,
             )
         except Exception as e:

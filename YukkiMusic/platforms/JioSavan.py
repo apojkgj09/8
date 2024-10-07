@@ -54,33 +54,7 @@ class SaavnAPI:
 
         return await self.loop.run_in_executor(None, play_list)
 
-    async def track(self, url):
-        def get_track_info():
-            ydl_opts = {
-                'extract_flat': True,
-                'force_generic_extractor': True,
-                'quiet': True,
-            }
-            info = {}
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                try:
-                    track_info = ydl.extract_info(url, download=False)
-                    duration_sec = track_info.get('duration', 0)
-                    info = {
-                        "title": track_info['title'],
-                        "duration_sec": duration_sec,
-                        "duration_min": seconds_to_time(duration_sec),
-                        "thumbnail": track_info.get('thumbnail', ''),
-                        "url": track_info['url'],
-                    }
-                except Exception:
-                    pass
-            return info
-
-        return await self.loop.run_in_executor(None, get_track_info)
-
-    @staticmethod
-    async def download(url):
+    async def download(self, url):
         def down_load():
             ydl_opts = {
                 'format': 'bestaudio/best',
@@ -93,10 +67,26 @@ class SaavnAPI:
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=False)
-                xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-                if os.path.exists(xyz):
-                    return xyz
-                ydl.download([url])
-                return xyz
+                file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+                
+                if os.path.exists(file_path):
+                    return file_path, {
+                        "title": info['title'],
+                        "duration_sec": info.get('duration', 0),
+                        "duration_min": seconds_to_time(info.get('duration', 0)),
+                        "thumbnail": info.get('thumbnail', ''),
+                        "url": info['url'],
+                    }
 
-        return await asyncio.get_event_loop().run_in_executor(None, down_load)
+                ydl.download([url])
+                return file_path, {
+                    "title": info['title'],
+                    "duration_sec": info.get('duration', 0),
+                    "duration_min": seconds_to_time(info.get('duration', 0)),
+                    "thumbnail": info.get('thumbnail', ''),
+                    "url": info['url'],
+                }
+
+        return await self.loop.run_in_executor(None, down_load)
+
+

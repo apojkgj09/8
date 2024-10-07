@@ -1,7 +1,5 @@
 import re
 import os
-import random
-import string
 import yt_dlp
 from config import seconds_to_time
 
@@ -36,3 +34,29 @@ class Saavn:
             except Exception:
                 pass
         return song_info
+
+    @staticmethod
+    def download(url):
+        
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'outtmpl': 'downloads/%(id)s.%(ext)s',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'm4a',
+                'preferredquality': '192',
+            }],
+            'geo_bypass': True,
+            'nocheckcertificate': True,
+            'quiet': True,
+            'no_warnings': True,
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+            if os.path.exists(xyz):
+                return xyz
+            ydl.download([url])
+            return xyz
+

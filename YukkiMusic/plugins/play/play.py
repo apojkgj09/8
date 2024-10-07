@@ -11,7 +11,6 @@
 import asyncio
 import random
 import string
-import logging
 
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -21,7 +20,7 @@ import config
 from config import BANNED_USERS, lyrical
 from strings import get_command
 
-from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Saavn, Telegram, YouTube, app
+from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Saavn, Telegram, YouTube, app, LOGGER 
 from YukkiMusic.utils import seconds_to_min, time_to_seconds
 from YukkiMusic.utils.channelplay import get_channeplayCB
 from YukkiMusic.utils.database import is_video_allowed
@@ -328,7 +327,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
-                logging.exception(f"{ex_type} {e}")
+                LOGGER(__name__).error(f"{ex_type} {e}")
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
@@ -360,6 +359,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
+                    LOGGER(__name__).error(f"{ex_type} {e}")
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()

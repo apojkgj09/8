@@ -13,19 +13,19 @@ class SaavnAPI:
         self.album_regex = r"https?://(www\.)?jiosaavn\.com/album/.*"
 
     async def valid(self, url: str) -> bool:
-        return re.match(self.song_regex, url) is not None
+        return "jiosaavn.com" in url
 
     async def is_song(self, url: str) -> bool:
-        return re.match(self.song_regex, url) is not None
+        return "song" in url
 
     async def is_playlist(self, url: str) -> bool:
-        return re.match(self.playlist_regex, url) is not None
+        return "featured" in url
 
     async def is_podcast(self, url: str) -> bool:
-        return re.match(self.podcast_regex, url) is not None
+        return "shows" in url
 
     async def is_album(self, url: str) -> bool:
-        return re.match(self.album_regex, url) is not None
+        return "album" in url
 
     def clean_url(self, url: str) -> str:
         if "#"in url:

@@ -10,7 +10,6 @@ class Saavn:
     def valid(self, url: str) -> bool:
         return re.match(self.regex, url) is not None
 
-
     def playlist(self, url):
         ydl_opts = {
             'extract_flat': True,
@@ -31,6 +30,6 @@ class Saavn:
                         "webpage_url": entry['url'],
                     }
                     song_info.append(info)
-                return song_info
             except Exception:
-                return song_info
+                pass
+        return song_info

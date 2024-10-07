@@ -292,7 +292,10 @@ async def play_commnd(
             elif await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
-                except Exception:
+                except Exception as e:
+                    ex_type = type(e).__name__
+                    
+                    LOGGER(__name__).error(f"{ex_type} {e}")
                     return await mystic.edit_text(_["play_3"])
 
                 duration_sec = details["duration_sec"]
@@ -312,7 +315,10 @@ async def play_commnd(
                         url, limit=config.PLAYLIST_FETCH_LIMIT
                     )
                     streamtype = "saavn_playlist"
-                except Exception:
+                except Exception as e:
+                    ex_type = type(e).__name__                  
+                    LOGGER(__name__).error(f"{ex_type} {e}")  
+
                     return await mystic.edit_text(_["play_3"])
 
                 if len(details) == 0:

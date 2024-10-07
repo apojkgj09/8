@@ -289,13 +289,14 @@ async def play_commnd(
                 except Exception:
                     return await mystic.edit_text(_["play_3"])
                 duration_sec = details["duration_sec"]
+                streamtype = "saavn_track"
                 if duration_sec > config.DURATION_LIMIT:
                     return await mystic.edit_text(
                         _["play_6"].format(
                             config.DURATION_LIMIT_MIN,
                             details["duration_min"],
                         )
-                streamtype = "saavn_track"
+                
             if await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
                     details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            

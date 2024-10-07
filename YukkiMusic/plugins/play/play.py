@@ -296,8 +296,8 @@ async def play_commnd(
                             details["duration_min"],
                         )
             elif await Saavn.is_album(url) or await Saavn.is_playlist(url):
-            	try:
-                	details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            
+                try:
+                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            
                 except:
                 	return await mystic.edit_text(_["play_3"])
             	if len(details) == 0:

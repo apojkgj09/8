@@ -58,7 +58,7 @@ class SaavnAPI:
                     pass
             return song_info
 
-        return await self.loop.run_in_executor(None, play_list)
+        return await loop.run_in_executor(None, play_list)
 
     async def download(self, url):
         loop = asyncio.get_running_loop()
@@ -96,4 +96,4 @@ class SaavnAPI:
                     "filepath": file_path,
                 }
 
-        return await self.loop.run_in_executor(None, down_load)
+        return await loop.run_in_executor(None, down_load)

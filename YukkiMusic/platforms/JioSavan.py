@@ -76,6 +76,7 @@ class SaavnAPI:
                         "duration_min": seconds_to_time(info.get('duration', 0)),
                         "thumbnail": info.get('thumbnail', ''),
                         "url": info['url'],
+                        "filepath":file_path,
                     }
 
                 ydl.download([url])
@@ -85,6 +86,7 @@ class SaavnAPI:
                     "duration_min": seconds_to_time(info.get('duration', 0)),
                     "thumbnail": info.get('thumbnail', ''),
                     "url": info['url'],
+                    "filepath": file_path,
                 }
 
         return await self.loop.run_in_executor(None, down_load)

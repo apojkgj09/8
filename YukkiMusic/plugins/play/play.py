@@ -309,7 +309,7 @@ async def play_commnd(
                             details["duration_min"],
                         )
                     )
-             elif "album" in url or "featured" in url:
+            elif "album" in url or "featured" in url:
                 try:
                     details = await Saavn.playlist(
                         url, limit=config.PLAYLIST_FETCH_LIMIT

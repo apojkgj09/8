@@ -7,7 +7,6 @@ from config import seconds_to_time
 
 class SaavnAPI:
     def __init__(self):
-        self.loop = asyncio.get_running_loop()
         self.song_regex = r"https?://(www\.)?jiosaavn\.com/song/.*"
         self.playlist_regex = r"https?://(www\.)?jiosaavn\.com/featured/.*"
         self.podcast_regex = r"https?://(www\.)?jiosaavn\.com/shows/.*"
@@ -29,6 +28,7 @@ class SaavnAPI:
         return re.match(self.album_regex, url) is not None
 
     async def playlist(self, url, limit):
+        loop = asyncio.get_running_loop()
         def play_list():
             ydl_opts = {
                 "extract_flat": True,
@@ -61,6 +61,7 @@ class SaavnAPI:
         return await self.loop.run_in_executor(None, play_list)
 
     async def download(self, url):
+        loop = asyncio.get_running_loop()
         def down_load():
             ydl_opts = {
                 "format": "bestaudio/best",

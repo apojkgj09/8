@@ -15,7 +15,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
-from YukkiMusic import Carbon, YouTube, Saavn, app
+from YukkiMusic import Carbon, YouTube, Saavn, app, LOGGER
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
 from YukkiMusic.utils.database import (
@@ -218,6 +218,7 @@ async def stream(
             except Exception as ex:
                 print(ex)
     elif "saavn" in streamtype:
+        LOGGER(__name__).error(f"Stream Type {streamtype}")
         if streamtype == "saavn_track":
             if result["duration_sec"] ==0:
                 return 

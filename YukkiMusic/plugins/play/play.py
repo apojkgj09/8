@@ -66,9 +66,9 @@ async def play_commnd(
     plist_id = None
     slider = None
     plist_type = None
-    type = None
+    spotify = None
     user_id = message.from_user.id
-    user_name = message.from_user.first_name
+    user_name = message.from_user.mention
     audio_telegram = (
         (message.reply_to_message.audio or message.reply_to_message.voice)
         if message.reply_to_message
@@ -207,7 +207,7 @@ async def play_commnd(
                     details["duration_min"],
                 )
         elif await Spotify.valid(url):
-            type = "spotify"
+            spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
                 return await mystic.edit_text(
                     "ᴛʜɪs ʙᴏᴛ ᴄᴀɴ'ᴛ ᴩʟᴀʏ sᴩᴏᴛɪғʏ ᴛʀᴀᴄᴋs ᴀɴᴅ ᴩʟᴀʏʟɪsᴛs, ᴩʟᴇᴀsᴇ ᴄᴏɴᴛᴀᴄᴛ ᴍʏ ᴏᴡɴᴇʀ ᴀɴᴅ ᴀsᴋ ʜɪᴍ ᴛᴏ ᴀᴅᴅ sᴩᴏᴛɪғʏ ᴩʟᴀʏᴇʀ."
@@ -259,7 +259,7 @@ async def play_commnd(
                 img = details["thumb"]
                 cap = _["play_11"].format(details["title"], details["duration_min"])
             elif "playlist" in url:
-                type = "spotify"
+                spotify = True
                 try:
                     details, plist_id = await Apple.playlist(url)
                 except Exception:
@@ -295,15 +295,32 @@ async def play_commnd(
                             config.DURATION_LIMIT_MIN,
                             details["duration_min"],
                         )
+                streamtype = "saavn_track"
             if await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
                     details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            
                 except:
-                	return await mystic.edit_text(_["play_3"])
+                    return await mystic.edit_text(_["play_3"])
             	if len(details) == 0:
                 	return await mystic.edit_text(_["play_3"])
-                streamtype = "playlist"
-                type = "saavn"
+                streamtype = "saavn_playlist"
+            try:
+                await stream(
+                    _,
+                    mystic,
+                    user_id,
+                    details,
+                    chat_id,
+                    user_name,
+                    message.chat.id,
+                    streamtype=streamtype,
+                    forceplay=fplay,
+                )
+            except Exception as e:
+                ex_type = type(e).__name__
+                err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
+                return await mystic.edit_text(err)
+            return await mystic.delete()
             
         elif await SoundCloud.valid(url):
             try:
@@ -318,7 +335,6 @@ async def play_commnd(
                         details["duration_min"],
                     )
                 )
-            streamtype = "soundcloud"
             try:
                 await stream(
                     _,
@@ -328,9 +344,8 @@ async def play_commnd(
                     chat_id,
                     user_name,
                     message.chat.id,
-                    streamtype=streamtype,
+                    streamtype="soundcloud",
                     forceplay=fplay,
-                    type=type
                 )
             except Exception as e:
                 ex_type = type(e).__name__

@@ -41,11 +41,6 @@ class Saavn:
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': 'downloads/%(id)s.%(ext)s',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'm4a',
-                'preferredquality': '192',
-            }],
             'geo_bypass': True,
             'nocheckcertificate': True,
             'quiet': True,

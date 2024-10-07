@@ -11,6 +11,7 @@
 import asyncio
 import random
 import string
+import logging
 
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -285,7 +286,7 @@ async def play_commnd(
                     "Sorry! Currently Bot is unable to play Saavn Podcast Url"
                 )
 
-            if await Saavn.is_song(url):
+            elif await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
                 except Exception:
@@ -302,7 +303,7 @@ async def play_commnd(
                         )
                     )
 
-            if await Saavn.is_album(url) or await Saavn.is_playlist(url):
+            elif await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
                     details = await Saavn.playlist(
                         url, limit=config.PLAYLIST_FETCH_LIMIT
@@ -327,6 +328,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
+                logging.exception(f"{ex_type} {e}")
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()

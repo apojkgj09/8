@@ -27,6 +27,7 @@ async def put_queue(
     user_id,
     stream,
     forceplay: Union[bool, str] = None,
+    link: Union[bool, str] = None,
 ):
     title = title.title()
     try:

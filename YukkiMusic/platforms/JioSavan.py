@@ -7,10 +7,25 @@ from config import seconds_to_time
 class SaavnAPI:
     def __init__(self):
         self.loop = asyncio.get_running_loop()
-        self.regex = r'https?://(www\.)?jiosaavn\.com/(song|featured|shows)/.*'
+        self.song_regex = r'https?://(www\.)?jiosaavn\.com/song/.*'
+        self.playlist_regex = r'https?://(www\.)?jiosaavn\.com/featured/.*'
+        self.podcast_regex = r'https?://(www\.)?jiosaavn\.com/shows/.*'
+        self.album_regex = r'https?://(www\.)?jiosaavn\.com/album/.*'
 
     async def valid(self, url: str) -> bool:
-        return re.match(self.regex, url) is not None
+        return re.match(self.song_regex, url) is not None
+
+    async def is_song(self, url: str) -> bool:
+        return re.match(self.song_regex, url) is not None
+
+    async def is_playlist(self, url: str) -> bool:
+        return re.match(self.playlist_regex, url) is not None
+
+    async def is_podcast(self, url: str) -> bool:
+        return re.match(self.podcast_regex, url) is not None
+
+    async def is_album(self, url: str) -> bool:
+        return re.match(self.album_regex, url) is not None
 
     async def playlist(self, url):
         def play_list():

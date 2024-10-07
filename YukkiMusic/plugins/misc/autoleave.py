@@ -72,7 +72,7 @@ async def auto_end():
     while True:
         await asyncio.sleep(30)
         if not await is_autoend():
-            continue 
+            continue
         for chat_id, timer in list(autoend.items()):
             if datetime.now() > timer:
                 if not await is_active_chat(chat_id):
@@ -81,7 +81,7 @@ async def auto_end():
 
                 userbot = await get_assistant(chat_id)
                 members = []
-         
+
                 try:
                     async for member in userbot.get_call_members(chat_id):
                         if member is None:

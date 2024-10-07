@@ -31,7 +31,6 @@ from YukkiMusic.utils.stream.queue import put_queue, put_queue_index
 from YukkiMusic.utils.thumbnails import gen_qthumb, gen_thumb
 
 
-
 async def stream(
     _,
     mystic,
@@ -145,9 +144,7 @@ async def stream(
                 caption=_["playlist_18"].format(link, position),
                 reply_markup=upl,
             )
-            
-            
-            
+
     elif streamtype == "youtube":
         link = result["link"]
         vidid = result["vidid"]
@@ -245,7 +242,9 @@ async def stream(
                 await app.send_message(
                     original_chat_id,
                     photo=thumb,
-                    caption=_["queue_4"].format(position, title[:30], duration_min, user_name),
+                    caption=_["queue_4"].format(
+                        position, title[:30], duration_min, user_name
+                    ),
                     reply_markup=button,
                 )
             else:
@@ -303,12 +302,14 @@ async def stream(
                     count += 1
                     msg += f"{count}- {title[:70]}\n"
                     msg += f"{_['playlist_17']} {position}\n\n"
-                    
+
                 else:
-                	
+
                     if not forceplay:
                         db[chat_id] = []
-                    await Yukki.join_call(chat_id, original_chat_id, file_path, video=None)
+                    await Yukki.join_call(
+                        chat_id, original_chat_id, file_path, video=None
+                    )
                     await put_queue(
                         chat_id,
                         original_chat_id,
@@ -316,7 +317,7 @@ async def stream(
                         title,
                         duration_min,
                         user_name,
-                       streamtype,
+                        streamtype,
                         user_id,
                         "audio",
                         forceplay=forceplay,
@@ -333,7 +334,7 @@ async def stream(
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
-                if count==0:
+                if count == 0:
                     return
                 else:
                     link = await Yukkibin(msg)
@@ -348,10 +349,9 @@ async def stream(
                         original_chat_id,
                         photo=carbon,
                         caption=_["playlist_18"].format(link, position),
-                         reply_markup=upl,
+                        reply_markup=upl,
                     )
-                
-        
+
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]

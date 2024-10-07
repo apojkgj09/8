@@ -70,7 +70,7 @@ async def leave_if_muted():
                             await Yukki.stop_stream(chat_id)
                         except Exception:
                             pass
-                        continue              
+                        continue
 
                     m = next((m for m in members if m.chat.id == userbot.id), None)
                     if m is None:
@@ -129,7 +129,7 @@ async def markup_timer():
                             await Yukki.stop_stream(chat_id)
                         except Exception:
                             pass
-                        continue   
+                        continue
                     if not members:
                         await Yukki.stop_stream(chat_id)
                         await set_loop(chat_id, 0)

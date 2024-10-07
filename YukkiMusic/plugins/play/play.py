@@ -278,21 +278,22 @@ async def play_commnd(
             streamtype = "youtube"
             img = details["thumb"]
             cap = _["play_11"].format(details["title"], details["duration_min"])
-            
-            
+
         elif await Saavn.valid(url):
             if await Saavn.is_podcast(url):
-                return await mystic.edit_text("Sorry! Currently Bot is unable to play Saavn Podcast Url")
+                return await mystic.edit_text(
+                    "Sorry! Currently Bot is unable to play Saavn Podcast Url"
+                )
 
             if await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
                 except Exception:
                     return await mystic.edit_text(_["play_3"])
-                
+
                 duration_sec = details["duration_sec"]
                 streamtype = "saavn_track"
-                
+
                 if duration_sec > config.DURATION_LIMIT:
                     return await mystic.edit_text(
                         _["play_6"].format(
@@ -303,7 +304,9 @@ async def play_commnd(
 
             if await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
-                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)
+                    details = await Saavn.playlist(
+                        url, limit=config.PLAYLIST_FETCH_LIMIT
+                    )
                     streamtype = "saavn_playlist"
                 except Exception:
                     return await mystic.edit_text(_["play_3"])
@@ -327,7 +330,7 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
-            
+
         elif await SoundCloud.valid(url):
             try:
                 details, track_path = await SoundCloud.download(url)
@@ -501,7 +504,7 @@ async def play_commnd(
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
-                
+
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB

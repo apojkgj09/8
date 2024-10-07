@@ -247,7 +247,6 @@ async def del_back_playlist(client, CallbackQuery, _):
         streamtype = check[0]["streamtype"]
         videoid = check[0]["vidid"]
         duration_min = check[0]["dur"]
-        CallbackQuery.message.from_user.id
         status = True if str(streamtype) == "video" else None
         db[chat_id][0]["played"] = 0
         if "live_" in queued:
@@ -355,6 +354,18 @@ async def del_back_playlist(client, CallbackQuery, _):
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+            elif "saavn" in videoid:
+                button = telegram_markup(_, chat_id)
+                run = await CallbackQuery.message.reply_photo(
+                    photo=check[0]["thumb"],
+                    caption=_["stream_1"].format(
+                        title, SUPPORT_GROUP, check[0]["dur"], user
+                    ),
+                    reply_markup=InlineKeyboardMarkup(button),
+                )
+                db[chat_id][0]["mystic"] = run
+                db[chat_id][0]["markup"] = "tg"
+
             else:
                 button = stream_markup(_, videoid, chat_id)
                 img = await gen_thumb(videoid)

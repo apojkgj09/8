@@ -41,8 +41,8 @@ async def stream(
     user_name,
     original_chat_id,
     video: Union[bool, str] = None,
-    spotify: Union[bool, str] = None,
     streamtype: Union[bool, str] = None,
+    spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
 ):
     if not result:

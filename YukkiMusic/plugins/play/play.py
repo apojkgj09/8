@@ -11,6 +11,7 @@
 import asyncio
 import random
 import string
+import traceback
 
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -337,7 +338,9 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
-                LOGGER(__name__).error(f"{ex_type} {e}")
+                tb = traceback.extract_tb(e.__traceback__)
+                line_number = tb[-1].lineno
+                LOGGER(__name__).error(f"Exception: {ex_type}, Message: {e}, Line: {line_number}")
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()

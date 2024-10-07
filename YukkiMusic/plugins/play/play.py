@@ -283,29 +283,33 @@ async def play_commnd(
         elif await Saavn.valid(url):
             if await Saavn.is_podcast(url):
                 return await mystic.edit_text("Sorry! Currently Bot is unable to play Saavn Podcast Url")
+
             if await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
                 except Exception:
                     return await mystic.edit_text(_["play_3"])
+                
                 duration_sec = details["duration_sec"]
                 streamtype = "saavn_track"
+                
                 if duration_sec > config.DURATION_LIMIT:
                     return await mystic.edit_text(
                         _["play_6"].format(
                             config.DURATION_LIMIT_MIN,
                             details["duration_min"],
                         )
-                
+                    )
+
             if await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
-                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)  
-                    streamtype = "saavn_playlist"          
-                except:
+                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)
+                    streamtype = "saavn_playlist"
+                except Exception:
                     return await mystic.edit_text(_["play_3"])
+
                 if len(details) == 0:
                     return await mystic.edit_text(_["play_3"])
-                
             try:
                 await stream(
                     _,

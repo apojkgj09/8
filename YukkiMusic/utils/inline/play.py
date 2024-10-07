@@ -263,7 +263,7 @@ def queue_markup(_, videoid):
         ],
         [InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")],
     ]
-    return buttons
+    return InlineKeyboardMarkup(buttons)
 
 
 def panel_markup_1(_, videoid, chat_id):

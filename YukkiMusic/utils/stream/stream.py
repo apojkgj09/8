@@ -219,6 +219,8 @@ async def stream(
                 print(ex)
     elif "saavn" in streamtype:
         if streamtype == "saavn_track":
+            if result["duration_sec"] ==0:
+                continue
             file_path = result["filepath"]
             title = result["title"]
             duration_min = result["duration_min"]
@@ -241,7 +243,7 @@ async def stream(
                 position = len(db.get(chat_id)) - 1
                 await app.send_message(
                     original_chat_id,
-                    photo=thumb,
+                    photo=thumb or "https://envs.sh/Ii_.jpg",
                     caption=_["queue_4"].format(
                         position, title[:30], duration_min, user_name
                     ),
@@ -279,6 +281,8 @@ async def stream(
             msg = f"{_['playlist_16']}\n\n"
             count = 0
             for search in result:
+                if result["duration_sec"] ==0:
+                    continue
                 title = search["title"]
                 duration_min = search["duration_min"]
                 duration_sec = search["duration_sec"]

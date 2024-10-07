@@ -27,7 +27,7 @@ class SaavnAPI:
     async def is_album(self, url: str) -> bool:
         return re.match(self.album_regex, url) is not None
 
-    async def playlist(self, url):
+    async def playlist(self, url, limit):
         def play_list():
             ydl_opts = {
                 'extract_flat': True,
@@ -35,10 +35,13 @@ class SaavnAPI:
                 'quiet': True,
             }
             song_info = []
+            count = 0
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 try:
                     playlist_info = ydl.extract_info(url, download=False)
                     for entry in playlist_info['entries']:
+                        if count == limit:
+                            break
                         duration_sec = entry.get('duration', 0)
                         info = {
                             "title": entry['title'],
@@ -48,6 +51,8 @@ class SaavnAPI:
                             "url": entry['url'],
                         }
                         song_info.append(info)
+                        count+=1
+
                 except Exception:
                     pass
             return song_info

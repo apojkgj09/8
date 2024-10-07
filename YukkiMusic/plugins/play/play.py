@@ -388,7 +388,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
-            LOGGER(__name__).error(f"{ex_type} {e}")
+                LOGGER(__name__).error(f"{ex_type} {e}")
 
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
@@ -448,7 +448,7 @@ async def play_commnd(
             )
         except Exception as e:
             ex_type = type(e).__name__
-                LOGGER(__name__).error(f"{ex_type} {e}")
+            LOGGER(__name__).error(f"{ex_type} {e}")
 
             err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
             try:

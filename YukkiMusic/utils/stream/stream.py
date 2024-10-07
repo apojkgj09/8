@@ -218,7 +218,6 @@ async def stream(
             except Exception as ex:
                 print(ex)
     elif "saavn" in streamtype:
-        LOGGER(__name__).error(f"Stream Type {streamtype}")
         if streamtype == "saavn_track":
             if result["duration_sec"] ==0:
                 return 
@@ -339,23 +338,23 @@ async def stream(
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
-                if count == 0:
-                    return
+            if count == 0:
+                return
+            else:
+                link = await Yukkibin(msg)
+                lines = msg.count("\n")
+                if lines >= 17:
+                    car = os.linesep.join(msg.split(os.linesep)[:17])
                 else:
-                    link = await Yukkibin(msg)
-                    lines = msg.count("\n")
-                    if lines >= 17:
-                        car = os.linesep.join(msg.split(os.linesep)[:17])
-                    else:
-                        car = msg
-                    carbon = await Carbon.generate(car, randint(100, 10000000))
-                    upl = close_markup(_)
-                    return await app.send_photo(
-                        original_chat_id,
-                        photo=carbon,
-                        caption=_["playlist_18"].format(link, position),
-                        reply_markup=upl,
-                    )
+                    car = msg
+                carbon = await Carbon.generate(car, randint(100, 10000000))
+                upl = close_markup(_)
+                return await app.send_photo(
+                    original_chat_id,
+                    photo=carbon,
+                    caption=_["playlist_18"].format(link, position),
+                    reply_markup=upl,
+                )
 
     elif streamtype == "soundcloud":
         file_path = result["filepath"]

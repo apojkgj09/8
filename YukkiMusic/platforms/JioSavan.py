@@ -1,4 +1,7 @@
 import re
+import os
+import random
+import string
 import yt_dlp
 from config import seconds_to_time
 

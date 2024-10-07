@@ -283,7 +283,6 @@ async def play_commnd(
             streamtype = "youtube"
             img = details["thumb"]
             cap = _["play_11"].format(details["title"], details["duration_min"])
-
         elif await Saavn.valid(url):
             if await Saavn.is_podcast(url):
                 return await mystic.edit_text(
@@ -293,9 +292,12 @@ async def play_commnd(
             elif await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
+                    
+                    # Log the song details before playing
+                    LOGGER(__name__).info(f"Playing song: {details['title']} by {details['artist']} - Duration: {details['duration_min']} mins")
                 except Exception as e:
                     ex_type = type(e).__name__
-                    
+
                     LOGGER(__name__).error(f"{ex_type} {e}")
                     return await mystic.edit_text(_["play_3"])
 
@@ -315,6 +317,9 @@ async def play_commnd(
                         url, limit=config.PLAYLIST_FETCH_LIMIT
                     )
                     streamtype = "saavn_playlist"
+
+                    # Log the number of songs found in the playlist
+                    LOGGER(__name__).info(f"Found {len(details)} songs in the playlist")
                 except Exception as e:
                     ex_type = type(e).__name__                  
                     LOGGER(__name__).error(f"{ex_type} {e}")  
@@ -342,6 +347,7 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
+
 
         elif await SoundCloud.valid(url):
             try:

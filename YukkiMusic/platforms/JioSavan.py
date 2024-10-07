@@ -27,8 +27,18 @@ class SaavnAPI:
     async def is_album(self, url: str) -> bool:
         return re.match(self.album_regex, url) is not None
 
+    # Function to clean and normalize the URL
+    def clean_url(self, url: str) -> str:
+        # Removing any extra parameters after the song/album ID
+        clean_url = re.sub(r"(\?.*)$", "", url)
+        return clean_url
+
     async def playlist(self, url, limit):
         loop = asyncio.get_running_loop()
+
+        # Clean the URL
+        clean_url = self.clean_url(url)
+
         def play_list():
             ydl_opts = {
                 "extract_flat": True,
@@ -39,7 +49,7 @@ class SaavnAPI:
             count = 0
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 try:
-                    playlist_info = ydl.extract_info(url, download=False)
+                    playlist_info = ydl.extract_info(clean_url, download=False)
                     for entry in playlist_info["entries"]:
                         if count == limit:
                             break
@@ -62,6 +72,10 @@ class SaavnAPI:
 
     async def download(self, url):
         loop = asyncio.get_running_loop()
+
+        # Clean the URL
+        clean_url = self.clean_url(url)
+
         def down_load():
             ydl_opts = {
                 "format": "bestaudio/best",
@@ -73,7 +87,7 @@ class SaavnAPI:
             }
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info = ydl.extract_info(url, download=False)
+                info = ydl.extract_info(clean_url, download=False)
                 file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
 
                 if os.path.exists(file_path):
@@ -86,7 +100,7 @@ class SaavnAPI:
                         "filepath": file_path,
                     }
 
-                ydl.download([url])
+                ydl.download([clean_url])
                 return file_path, {
                     "title": info["title"],
                     "duration_sec": info.get("duration", 0),

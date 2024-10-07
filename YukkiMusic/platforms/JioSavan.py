@@ -81,6 +81,9 @@ class SaavnAPI:
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                "retries": 3,
+                "nooverwrites": False,
+                "continuedl": True,
             }
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:

@@ -299,12 +299,13 @@ async def play_commnd(
                 
             if await Saavn.is_album(url) or await Saavn.is_playlist(url):
                 try:
-                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            
+                    details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)  
+                    streamtype = "saavn_playlist"          
                 except:
                     return await mystic.edit_text(_["play_3"])
                 if len(details) == 0:
                     return await mystic.edit_text(_["play_3"])
-                streamtype = "saavn_playlist"
+                
             try:
                 await stream(
                     _,

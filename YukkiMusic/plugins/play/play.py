@@ -338,9 +338,8 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
-                tb = traceback.extract_tb(e.__traceback__)
-                line_number = tb[-1].lineno
-                LOGGER(__name__).error(f"Exception: {ex_type}, Message: {e}, Line: {line_number}")
+                error_trace = traceback.format_exc()
+                LOGGER(__name__).error(error_trace)
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()

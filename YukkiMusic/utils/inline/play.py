@@ -253,7 +253,7 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
     return buttons
 
 
-def queue_markup(_, videoid):
+def queue_markup(_, chat_id):
     buttons = [
         [
             InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),

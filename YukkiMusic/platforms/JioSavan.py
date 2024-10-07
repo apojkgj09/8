@@ -89,7 +89,7 @@ class SaavnAPI:
                     "title": info['title'],
                     "duration_sec": info.get('duration', 0),
                     "duration_min": seconds_to_time(info.get('duration', 0)),
-                    "thumbnail": info.get('thumbnail', ''),
+                    "thumb": info.get('thumbnail', ''),
                     "url": info['url'],
                     "filepath": file_path,
                 }

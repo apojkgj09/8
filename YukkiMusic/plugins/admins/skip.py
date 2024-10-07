@@ -203,6 +203,17 @@ async def skip(cli, message: Message, _, chat_id):
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+        elif "saavn" in videoid:
+            button = telegram_markup(_, chat_id)
+            run = await message.reply_photo(
+                photo=check[0]["thumb"],
+                caption=_["stream_1"].format(
+                    title, config.SUPPORT_GROUP, check[0]["dur"], user
+                ),
+                reply_markup=InlineKeyboardMarkup(button),
+            )
+            db[chat_id][0]["mystic"] = run
+            db[chat_id][0]["markup"] = "tg"
         else:
             button = stream_markup(_, videoid, chat_id)
             img = await gen_thumb(videoid)

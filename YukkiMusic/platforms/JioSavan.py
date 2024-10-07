@@ -3,7 +3,7 @@ import os
 import yt_dlp
 from config import seconds_to_time
 
-class Saavn:
+class SaavnAPI:
     def __init__(self):
         self.base = "https://www.jiosaavn.com/"
         self.regex = r'https?://(www\.)?jiosaavn\.com/(song|featured|shows)/.*'

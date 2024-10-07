@@ -220,7 +220,7 @@ async def stream(
     elif "saavn" in streamtype:
         if streamtype == "saavn_track":
             if result["duration_sec"] ==0:
-                continue
+                return 
             file_path = result["filepath"]
             title = result["title"]
             duration_min = result["duration_min"]

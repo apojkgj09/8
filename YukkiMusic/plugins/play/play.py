@@ -7,6 +7,7 @@
 #
 # All rights reserved.
 #
+
 import asyncio
 import random
 import string
@@ -19,7 +20,7 @@ import config
 from config import BANNED_USERS, lyrical
 from strings import get_command
 
-from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
+from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Saavn, Telegram, YouTube, app
 from YukkiMusic.utils import seconds_to_min, time_to_seconds
 from YukkiMusic.utils.channelplay import get_channeplayCB
 from YukkiMusic.utils.database import is_video_allowed
@@ -65,7 +66,7 @@ async def play_commnd(
     plist_id = None
     slider = None
     plist_type = None
-    spotify = None
+    type = None
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     audio_telegram = (
@@ -206,7 +207,7 @@ async def play_commnd(
                     details["duration_min"],
                 )
         elif await Spotify.valid(url):
-            spotify = True
+            type = "spotify"
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
                 return await mystic.edit_text(
                     "ᴛʜɪs ʙᴏᴛ ᴄᴀɴ'ᴛ ᴩʟᴀʏ sᴩᴏᴛɪғʏ ᴛʀᴀᴄᴋs ᴀɴᴅ ᴩʟᴀʏʟɪsᴛs, ᴩʟᴇᴀsᴇ ᴄᴏɴᴛᴀᴄᴛ ᴍʏ ᴏᴡɴᴇʀ ᴀɴᴅ ᴀsᴋ ʜɪᴍ ᴛᴏ ᴀᴅᴅ sᴩᴏᴛɪғʏ ᴩʟᴀʏᴇʀ."
@@ -258,7 +259,7 @@ async def play_commnd(
                 img = details["thumb"]
                 cap = _["play_11"].format(details["title"], details["duration_min"])
             elif "playlist" in url:
-                spotify = True
+                type = "spotify"
                 try:
                     details, plist_id = await Apple.playlist(url)
                 except Exception:
@@ -277,6 +278,33 @@ async def play_commnd(
             streamtype = "youtube"
             img = details["thumb"]
             cap = _["play_11"].format(details["title"], details["duration_min"])
+            
+            
+        elif await Saavn.valid(url):
+            if await Saavn.is_podcast(url):
+                return await mystic.edit_text("Sorry! Currently Bot is unable to play Saavn Podcast Url")
+            elif await Saavn.is_song(url):
+                try:
+                    file_path, details = await Saavn.download(url)
+                except Exception:
+                    return await mystic.edit_text(_["play_3"])
+                duration_sec = details["duration_sec"]
+                if duration_sec > config.DURATION_LIMIT:
+                    return await mystic.edit_text(
+                        _["play_6"].format(
+                            config.DURATION_LIMIT_MIN,
+                            details["duration_min"],
+                        )
+            elif await Saavn.is_album(url) or await Saavn.is_playlist(url):
+            	try:
+                	details = await Saavn.playlist(url, limit=config.PLAYLIST_FETCH_LIMIT)            
+                except:
+                	return await mystic.edit_text(_["play_3"])
+            	if len(details) == 0:
+                	return await mystic.edit_text(_["play_3"])
+                streamtype = "playlist"
+                type = "saavn"
+            
         elif await SoundCloud.valid(url):
             try:
                 details, track_path = await SoundCloud.download(url)
@@ -290,6 +318,7 @@ async def play_commnd(
                         details["duration_min"],
                     )
                 )
+            streamtype = "soundcloud"
             try:
                 await stream(
                     _,
@@ -299,8 +328,9 @@ async def play_commnd(
                     chat_id,
                     user_name,
                     message.chat.id,
-                    streamtype="soundcloud",
+                    streamtype=streamtype,
                     forceplay=fplay,
+                    type=type
                 )
             except Exception as e:
                 ex_type = type(e).__name__
@@ -347,30 +377,29 @@ async def play_commnd(
         except Exception:
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
-    if str(playmode) == "Direct":
-        if not plist_type:
-            if details["duration_min"]:
-                duration_sec = time_to_seconds(details["duration_min"])
-                if duration_sec > config.DURATION_LIMIT:
-                    return await mystic.edit_text(
-                        _["play_6"].format(
-                            config.DURATION_LIMIT_MIN,
-                            details["duration_min"],
-                        )
-                    )
-            else:
-                buttons = livestream_markup(
-                    _,
-                    track_id,
-                    user_id,
-                    "v" if video else "a",
-                    "c" if channel else "g",
-                    "f" if fplay else "d",
-                )
+    if str(playmode) == "Direct" or not plist_type:
+        if details["duration_min"]:
+            duration_sec = time_to_seconds(details["duration_min"])
+            if duration_sec > config.DURATION_LIMIT:
                 return await mystic.edit_text(
-                    _["play_15"],
-                    reply_markup=InlineKeyboardMarkup(buttons),
+                    _["play_6"].format(
+                        config.DURATION_LIMIT_MIN,
+                        details["duration_min"],
+                    )
                 )
+        else:
+            buttons = livestream_markup(
+                _,
+                track_id,
+                user_id,
+                "v" if video else "a",
+                "c" if channel else "g",
+                "f" if fplay else "d",
+            )
+            return await mystic.edit_text(
+                _["play_15"],
+                reply_markup=InlineKeyboardMarkup(buttons),
+            )
         try:
             await stream(
                 _,
@@ -382,7 +411,7 @@ async def play_commnd(
                 message.chat.id,
                 video=video,
                 streamtype=streamtype,
-                spotify=spotify,
+                type=type,
                 forceplay=fplay,
             )
         except Exception as e:
@@ -451,7 +480,7 @@ async def play_commnd(
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
-
+                
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB

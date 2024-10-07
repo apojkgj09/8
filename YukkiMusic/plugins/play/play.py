@@ -294,7 +294,7 @@ async def play_commnd(
                     file_path, details = await Saavn.download(url)
                     
                     # Log the song details before playing
-                    LOGGER(__name__).info(f"Playing song: {details['title']} by {details['artist']} - Duration: {details['duration_min']} mins")
+                    LOGGER(__name__).info(f"Playing song: {len(details)} mins")
                 except Exception as e:
                     ex_type = type(e).__name__
 

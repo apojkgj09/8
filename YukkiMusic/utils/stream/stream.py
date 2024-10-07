@@ -241,7 +241,7 @@ async def stream(
                 )
                 button = queue_markup(_, chat_id)
                 position = len(db.get(chat_id)) - 1
-                await app.send_message(
+                await app.send_photo(
                     original_chat_id,
                     photo=thumb or "https://envs.sh/Ii_.jpg",
                     caption=_["queue_4"].format(

@@ -281,7 +281,7 @@ async def stream(
             msg = f"{_['playlist_16']}\n\n"
             count = 0
             for search in result:
-                if result["duration_sec"] ==0:
+                if search["duration_sec"] ==0:
                     continue
                 title = search["title"]
                 duration_min = search["duration_min"]

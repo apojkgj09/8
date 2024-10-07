@@ -310,7 +310,8 @@ async def play_commnd(
                         )
                     )
 
-            elif await Saavn.is_album(url) or await Saavn.is_playlist(url):
+            # elif "featured" in url or :
+            else
                 try:
                     details = await Saavn.playlist(
                         url, limit=config.PLAYLIST_FETCH_LIMIT

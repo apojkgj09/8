@@ -21,12 +21,6 @@ class SaavnAPI:
     async def is_playlist(self, url: str) -> bool:
         return "/featured/" in url
 
-    async def is_podcast(self, url: str) -> bool:
-        return "shows" in url
-
-    async def is_album(self, url: str) -> bool:
-        return "album" in url
-
     def clean_url(self, url: str) -> str:
         if "#"in url:
             url = url.split("#")[0]

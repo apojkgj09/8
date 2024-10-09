@@ -30,8 +30,9 @@ def cookies():
     if not txt_files:
         raise DownloadError("No cookies files found.")
     
-    cookies = random.choice(txt_files)
-    return str(os.path.abspath(cookies))
+    cookie_txt_file = random.choice(txt_files)
+    return f"YukkiMusic/utils/cookies/{os.path.basename(cookie_txt_file)}"
+
 
 
 

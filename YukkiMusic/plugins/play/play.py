@@ -297,7 +297,8 @@ async def play_commnd(
                     LOGGER(__name__).info(f"Playing song: {len(details)} mins")
                 except Exception as e:
                     ex_type = type(e).__name__
-
+                    error_trace = traceback.format_exc()
+                    LOGGER(__name__).error(error_trace)
                     LOGGER(__name__).error(f"{ex_type} {e}")
                     return await mystic.edit_text(_["play_3"])
 
@@ -321,7 +322,9 @@ async def play_commnd(
                     # Log the number of songs found in the playlist
                     LOGGER(__name__).info(f"Found {len(details)} songs in the playlist")
                 except Exception as e:
-                    ex_type = type(e).__name__                  
+                    ex_type = type(e).__name__                
+                    error_trace = traceback.format_exc()
+                    LOGGER(__name__).error(error_trace)  
                     LOGGER(__name__).error(f"{ex_type} {e}")  
 
                     return await mystic.edit_text(_["play_3"])

@@ -7,28 +7,27 @@ from config import seconds_to_time
 
 class SaavnAPI:
     def __init__(self):
-        self.song_regex = r"https?://(www\.)?jiosaavn\.com/song/.*"
-        self.playlist_regex = r"https?://(www\.)?jiosaavn\.com/featured/.*"
-        self.podcast_regex = r"https?://(www\.)?jiosaavn\.com/shows/.*"
-        self.album_regex = r"https?://(www\.)?jiosaavn\.com/album/.*"
+        pass
 
-    async def valid(self, url: str) -> bool:
+    @staticmethod
+    async def valid(url: str) -> bool:
         return "jiosaavn.com" in url
 
-    async def is_song(self, url: str) -> bool:
+    @staticmethod
+    async def is_song(url: str) -> bool:
         return "song" in url and not "/featured/" in url
 
-    async def is_playlist(self, url: str) -> bool:
+    @staticmethod
+    async def is_playlist(url: str) -> bool:
         return "/featured/" in url or "/album" in url
 
     def clean_url(self, url: str) -> str:
-        if "#"in url:
+        if "#" in url:
             url = url.split("#")[0]
         return url
 
     async def playlist(self, url, limit):
         loop = asyncio.get_running_loop()
-
         clean_url = self.clean_url(url)
 
         def play_list():
@@ -55,7 +54,6 @@ class SaavnAPI:
                         }
                         song_info.append(info)
                         count += 1
-
                 except Exception:
                     pass
             return song_info
@@ -64,7 +62,6 @@ class SaavnAPI:
 
     async def download(self, url):
         loop = asyncio.get_running_loop()
-
         clean_url = self.clean_url(url)
 
         def down_load():
@@ -79,29 +76,31 @@ class SaavnAPI:
                 "nooverwrites": False,
                 "continuedl": True,
             }
+            try:
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    info = ydl.extract_info(clean_url, download=False)
+                    file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
 
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info = ydl.extract_info(clean_url, download=False)
-                file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+                    if os.path.exists(file_path):
+                        return file_path, {
+                            "title": info["title"],
+                            "duration_sec": info.get("duration", 0),
+                            "duration_min": seconds_to_time(info.get("duration", 0)),
+                            "thumb": info.get("thumbnail", None),
+                            "url": self.clean_url(info["url"]),
+                            "filepath": file_path,
+                        }
 
-                if os.path.exists(file_path):
+                    ydl.download([clean_url])
                     return file_path, {
                         "title": info["title"],
                         "duration_sec": info.get("duration", 0),
                         "duration_min": seconds_to_time(info.get("duration", 0)),
                         "thumb": info.get("thumbnail", None),
-                        "url": info["url"],
+                        "url": self.clean_url(info["url"]),
                         "filepath": file_path,
                     }
-
-                ydl.download([clean_url])
-                return file_path, {
-                    "title": info["title"],
-                    "duration_sec": info.get("duration", 0),
-                    "duration_min": seconds_to_time(info.get("duration", 0)),
-                    "thumb": info.get("thumbnail", None),
-                    "url": info["url"],
-                    "filepath": file_path,
-                }
+            except Exception:
+                return None, None
 
         return await loop.run_in_executor(None, down_load)

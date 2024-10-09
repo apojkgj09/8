@@ -228,6 +228,11 @@ class Call:
                 await set_loop(chat_id, loop)
             if popped:
                 await auto_clean(popped)
+                if popped.get("mystic"):
+                    try:
+                        popped.get("mystic").delete()
+                    except Exception:
+                        pass
             if not check:
                 await _clear_(chat_id)
                 return await client.leave_call(chat_id)

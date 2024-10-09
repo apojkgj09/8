@@ -19,7 +19,7 @@ class SaavnAPI:
         return "song" in url and not "/featured/" in url
 
     async def is_playlist(self, url: str) -> bool:
-        return "/featured/" in url
+        return "/featured/" in url or "/album"in url
 
     def clean_url(self, url: str) -> str:
         if "#"in url:

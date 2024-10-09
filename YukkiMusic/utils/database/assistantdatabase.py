@@ -21,7 +21,7 @@ assistantdict = {}
 
 async def get_client(assistant: int):
     clients = userbot.clients
-    if 1 <= assistant <= 5:
+    if 1 <= assistant <= len(userbot.clients):
         return clients[assistant - 1]
     return None
 

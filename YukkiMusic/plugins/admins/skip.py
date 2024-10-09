@@ -50,7 +50,7 @@ async def skip(cli, message: Message, _, chat_id):
                                 popped = check.pop(0)
                                 if popped.get("mystic"):
                                     try:
-                                        popped.get("mystic").delete()
+                                        await popped.get("mystic").delete()
                                     except Exception:
                                         pass
                             except:
@@ -86,7 +86,7 @@ async def skip(cli, message: Message, _, chat_id):
                 await auto_clean(popped)
                 if popped.get("mystic"):
                     try:
-                        popped.get("mystic").delete()
+                        await popped.get("mystic").delete()
                     except Exception:
                         pass
             if not check:

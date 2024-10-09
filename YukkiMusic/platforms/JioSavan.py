@@ -57,7 +57,7 @@ class SaavnAPI:
                             "duration_sec": duration_sec,
                             "duration_min": seconds_to_time(duration_sec),
                             "thumb": entry.get("thumbnail", ""),
-                            "url": entry["url"],
+                            "url": self.clean_url(entry["url"]),
                         }
                         song_info.append(info)
                         count += 1

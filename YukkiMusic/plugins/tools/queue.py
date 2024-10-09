@@ -73,7 +73,7 @@ async def ping_com(client, message: Message, _):
     videoid = got[0]["vidid"]
     user = got[0]["by"]
     title = (got[0]["title"]).title()
-    typo = (got[0]["streamtype"]).title()
+    type = (got[0]["streamtype"]).title()
     DUR = get_duration(got)
     if "live_" in file:
         IMAGE = get_image(videoid)
@@ -85,11 +85,13 @@ async def ping_com(client, message: Message, _):
         if videoid == "telegram":
             IMAGE = (
                 config.TELEGRAM_AUDIO_URL
-                if typo == "Audio"
+                if type == "Audio"
                 else config.TELEGRAM_VIDEO_URL
             )
         elif videoid == "soundcloud":
             IMAGE = config.SOUNCLOUD_IMG_URL
+        elif "saavn" in videoid:
+        	IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
         else:
             IMAGE = get_image(videoid)
     send = (
@@ -101,7 +103,7 @@ async def ping_com(client, message: Message, _):
 
 🎥**ᴘʟᴀʏɪɴɢ:** {title}
 
-🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {typo}
+🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {type}
 🙍‍♂️**ᴘʟᴀʏᴇᴅ ʙʏ:** {user}
 {send}"""
     upl = (
@@ -145,6 +147,7 @@ async def ping_com(client, message: Message, _):
                     break
         except:
             return
+
 
 
 @app.on_callback_query(filters.regex("GetTimer") & ~BANNED_USERS)
@@ -256,7 +259,7 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
     videoid = got[0]["vidid"]
     user = got[0]["by"]
     title = (got[0]["title"]).title()
-    typo = (got[0]["streamtype"]).title()
+    type = (got[0]["streamtype"]).title()
     DUR = get_duration(got)
     if "live_" in file:
         IMAGE = get_image(videoid)
@@ -268,11 +271,13 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
         if videoid == "telegram":
             IMAGE = (
                 config.TELEGRAM_AUDIO_URL
-                if typo == "Audio"
+                if type == "Audio"
                 else config.TELEGRAM_VIDEO_URL
             )
         elif videoid == "soundcloud":
             IMAGE = config.SOUNCLOUD_IMG_URL
+        elif "saavn" in videoid:
+        	IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
         else:
             IMAGE = get_image(videoid)
     send = (
@@ -284,7 +289,7 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
 
 🎥**ᴘʟᴀʏɪɴɢ:** {title}
 
-🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {typo}
+🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {type}
 🙍‍♂️**ᴘʟᴀʏᴇᴅ ʙʏ :** {user}
 {send}"""
     upl = (
@@ -330,3 +335,4 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
                     break
         except:
             return
+            

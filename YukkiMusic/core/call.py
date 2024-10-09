@@ -230,7 +230,7 @@ class Call:
                 await auto_clean(popped)
                 if popped.get("mystic"):
                     try:
-                        popped.get("mystic").delete()
+                        await popped.get("mystic").delete()
                     except Exception:
                         pass
             if not check:

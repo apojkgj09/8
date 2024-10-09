@@ -12,6 +12,7 @@ import os
 import random
 import re
 from typing import Union
+from pathlib import Path
 
 import httpx
 import yt_dlp
@@ -22,14 +23,13 @@ from youtubesearchpython.__future__ import VideosSearch
 from YukkiMusic.utils.exceptions import DownloadError
 from YukkiMusic.utils.formatters import time_to_seconds
 
-
 def cookies():
-    cookie_dir = "YukkiMusic/utils/cookies"
-    cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
+    cookie_dir = Path("YukkiMusic/utils/cookies")
+    cookies_files = [f for f in cookie_dir.glob("*.txt")]
     if not cookies_files:
         raise DownloadError("No cookies files found.")
-    return os.path.join(cookie_dir, random.choice(cookies_files))
-
+    cookie_file = random.choice(cookies_files)
+    return str(cookie_file.resolve())
 
 
 async def shell_cmd(cmd):

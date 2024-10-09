@@ -16,10 +16,10 @@ class SaavnAPI:
         return "jiosaavn.com" in url
 
     async def is_song(self, url: str) -> bool:
-        return "song" in url
+        return "song" in url and not "/featured/" in url
 
     async def is_playlist(self, url: str) -> bool:
-        return "featured" in url
+        return "/featured/" in url
 
     async def is_podcast(self, url: str) -> bool:
         return "shows" in url

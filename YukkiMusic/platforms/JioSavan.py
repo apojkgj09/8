@@ -76,22 +76,12 @@ class SaavnAPI:
                 "nooverwrites": False,
                 "continuedl": True,
             }
-            try:
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    info = ydl.extract_info(clean_url, download=False)
-                    file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
 
-                    if os.path.exists(file_path):
-                        return file_path, {
-                            "title": info["title"],
-                            "duration_sec": info.get("duration", 0),
-                            "duration_min": seconds_to_time(info.get("duration", 0)),
-                            "thumb": info.get("thumbnail", None),
-                            "url": self.clean_url(info["url"]),
-                            "filepath": file_path,
-                        }
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(clean_url, download=False)
+                file_path = os.path.join("downloads", f"{info['id']}.{info['ext']}")
 
-                    ydl.download([clean_url])
+                if os.path.exists(file_path):
                     return file_path, {
                         "title": info["title"],
                         "duration_sec": info.get("duration", 0),
@@ -100,7 +90,15 @@ class SaavnAPI:
                         "url": self.clean_url(info["url"]),
                         "filepath": file_path,
                     }
-            except Exception:
-                return None, None
+
+                ydl.download([clean_url])
+                return file_path, {
+                    "title": info["title"],
+                    "duration_sec": info.get("duration", 0),
+                    "duration_min": seconds_to_time(info.get("duration", 0)),
+                    "thumb": info.get("thumbnail", None),
+                    "url": self.clean_url(info["url"]),
+                    "filepath": file_path,
+                }
 
         return await loop.run_in_executor(None, down_load)

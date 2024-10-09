@@ -11,7 +11,6 @@
 import asyncio
 import random
 import string
-import traceback
 
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -115,7 +114,6 @@ async def play_commnd(
             except Exception as e:
                 ex_type = type(e).__name__
                 LOGGER(__name__).error(f"{ex_type} {e}")
-
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
@@ -163,7 +161,6 @@ async def play_commnd(
             except Exception as e:
                 ex_type = type(e).__name__
                 LOGGER(__name__).error(f"{ex_type} {e}")
-
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
@@ -284,7 +281,7 @@ async def play_commnd(
             img = details["thumb"]
             cap = _["play_11"].format(details["title"], details["duration_min"])
         elif await Saavn.valid(url):
-            if await Saavn.is_podcast(url):
+            if "shows" in url:
                 return await mystic.edit_text(
                     "Sorry! Currently Bot is unable to play Saavn Podcast Url"
                 )
@@ -292,16 +289,10 @@ async def play_commnd(
             elif await Saavn.is_song(url):
                 try:
                     file_path, details = await Saavn.download(url)
-                    
-                    # Log the song details before playing
-                    LOGGER(__name__).info(f"Playing song: {len(details)} mins")
                 except Exception as e:
                     ex_type = type(e).__name__
-                    error_trace = traceback.format_exc()
-                    LOGGER(__name__).error(error_trace)
                     LOGGER(__name__).error(f"{ex_type} {e}")
                     return await mystic.edit_text(_["play_3"])
-
                 duration_sec = details["duration_sec"]
                 streamtype = "saavn_track"
 
@@ -312,21 +303,15 @@ async def play_commnd(
                             details["duration_min"],
                         )
                     )
-            elif "album" in url or "featured" in url:
+            elif await Saavn.is_playlist(url):
                 try:
                     details = await Saavn.playlist(
                         url, limit=config.PLAYLIST_FETCH_LIMIT
                     )
                     streamtype = "saavn_playlist"
-
-                    # Log the number of songs found in the playlist
-                    LOGGER(__name__).info(f"Found {len(details)} songs in the playlist")
                 except Exception as e:
                     ex_type = type(e).__name__                
-                    error_trace = traceback.format_exc()
-                    LOGGER(__name__).error(error_trace)  
                     LOGGER(__name__).error(f"{ex_type} {e}")  
-
                     return await mystic.edit_text(_["play_3"])
 
                 if len(details) == 0:
@@ -345,8 +330,6 @@ async def play_commnd(
                 )
             except Exception as e:
                 ex_type = type(e).__name__
-                error_trace = traceback.format_exc()
-                LOGGER(__name__).error(error_trace)
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
@@ -530,8 +513,6 @@ async def play_commnd(
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
-
-
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
 async def play_music(client, CallbackQuery, _):

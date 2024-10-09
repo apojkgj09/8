@@ -11,6 +11,7 @@ import asyncio
 import os
 import random
 import re
+import glob
 from typing import Union
 from pathlib import Path
 
@@ -24,13 +25,14 @@ from YukkiMusic.utils.exceptions import DownloadError
 from YukkiMusic.utils.formatters import time_to_seconds
 
 def cookies():
-    cookie_dir = "YukkiMusic/utils/cookies"
-    cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
-    if not cookies_files:
+    folder_path = "YukkiMusic/utils/cookies"
+    txt_files = glob.glob(os.path.join(folder_path, '*.txt'))
+    if not txt_files:
         raise DownloadError("No cookies files found.")
     
-    cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
-    return os.path.abspath(cookie_file)  
+    cookies = random.choice(txt_files)
+    return str(os.path.abspath(cookies))
+
 
 
 async def shell_cmd(cmd):

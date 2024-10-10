@@ -16,6 +16,7 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import (
     BotCommand,
     BotCommandScopeAllChatAdministrators,
@@ -38,6 +39,25 @@ class YukkiBot(Client):
             bot_token=config.BOT_TOKEN,
             in_memory=True,
         )
+
+
+    async def edit_message_text(self, *args, **kwargs):
+        try:
+            await super().edit_message_text(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                retun await self.edit_message_text(self, *args, **kwargs)
+
+    async def send_message(self, *args, **kwargs):
+        try:
+            await super().send_message(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                retun await self.send_message(self, *args, **kwargs)
 
     async def start(self):
         await super().start()

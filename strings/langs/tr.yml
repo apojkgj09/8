@@ -388,7 +388,8 @@ broad_3 : "**Yardımcı Yayın:\n\n"
 broad_4 : "Yardımcı {0} {1} sohbette yayın yaptı.\n"
 broad_5 : "**KULLANIM**:\n/broadcast [MESAJ] veya [Bir Mesaja Yanıtla]"
 broad_6 : "Lütfen yayına verecek bazı metinler sağlayın."
-broad_7 : "**{0} KULLANICISINA YAYINLANAN MESAJ.**"
+broad_7 : "**{0} kullanıcıya {1} sabitlenmiş ile bottan başarıyla yayınlandı.**"
+
 
 #Heroku
 heroku_1 : "Lütfen **HEROKU API ANAHTARI** ve **UYGULAMA ADI** bilgilerinizin Heroku'da doğru şekilde yapılandırıldığından emin olun."

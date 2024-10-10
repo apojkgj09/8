@@ -38,7 +38,7 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.decorators.language import LanguageStart
 from YukkiMusic.utils.formatters import get_readable_time
 from YukkiMusic.utils.functions import MARKDOWN, WELCOMEHELP
-from YukkiMusic.utils.inline import alive_panel, private_panel, start_pannel
+from YukkiMusic.utils.inline import private_panel, start_pannel
 
 from .help import paginate_modules
 

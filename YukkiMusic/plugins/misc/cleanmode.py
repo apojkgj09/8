@@ -144,6 +144,7 @@ async def braodcast_message(client, message, _):
     # Bot broadcasting to users
     if "-user" in message.text:
         susr = 0
+        pin = 0
         served_users = []
         susers = await get_served_users()
         for user in susers:
@@ -155,16 +156,23 @@ async def braodcast_message(client, message, _):
                     if message.reply_to_message
                     else await app.send_message(i, text=query)
                 )
+                if "-pin" in message.text:
+                    try:
+                        await m.pin(disable_notification=True)
+                        pin += 1
+                    except Exception:
+                        continue
+                elif "-pinloud" in message.text:
+                    try:
+                        await m.pin(disable_notification=False)
+                        pin += 1
+                    except Exception:
+                        continue
                 susr += 1
-            except FloodWait as e:
-                flood_time = int(e.value)
-                if flood_time > 200:
-                    continue
-                await asyncio.sleep(flood_time)
             except Exception:
                 pass
         try:
-            await message.reply_text(_["broad_7"].format(susr))
+            await message.reply_text(_["broad_7"].format(susr, pin))
         except:
             pass
 

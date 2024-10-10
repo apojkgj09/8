@@ -48,7 +48,7 @@ class YukkiBot(Client):
             time = int(e.value)
             await asyncio.sleep(time)
             if time < 25:
-                retun await self.edit_message_text(self, *args, **kwargs)
+                return await self.edit_message_text(self, *args, **kwargs)
 
     async def send_message(self, *args, **kwargs):
         try:
@@ -57,7 +57,7 @@ class YukkiBot(Client):
             time = int(e.value)
             await asyncio.sleep(time)
             if time < 25:
-                retun await self.send_message(self, *args, **kwargs)
+                return await self.send_message(self, *args, **kwargs)
 
     async def start(self):
         await super().start()

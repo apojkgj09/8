@@ -43,7 +43,7 @@ class YukkiBot(Client):
 
     async def edit_message_text(self, *args, **kwargs):
         try:
-            await super().edit_message_text(*args, **kwargs)
+            return await super().edit_message_text(*args, **kwargs)
         except FloodWait as e:
             time = int(e.value)
             await asyncio.sleep(time)
@@ -51,8 +51,12 @@ class YukkiBot(Client):
                 return await self.edit_message_text(self, *args, **kwargs)
 
     async def send_message(self, *args, **kwargs):
+        if kwargs.get('send_direct', False):
+            kwargs.pop('send_direct', None)
+            return await super().send_message(*args, **kwargs)
+
         try:
-            await super().send_message(*args, **kwargs)
+            return await super().send_message(*args, **kwargs)
         except FloodWait as e:
             time = int(e.value)
             await asyncio.sleep(time)
@@ -61,7 +65,7 @@ class YukkiBot(Client):
 
     async def send_photo(self, *args, **kwargs):
         try:
-            await super().send_photo(*args, **kwargs)
+            return await super().send_photo(*args, **kwargs)
         except FloodWait as e:
             time = int(e.value)
             await asyncio.sleep(time)

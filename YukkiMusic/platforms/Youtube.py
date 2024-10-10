@@ -352,7 +352,8 @@ class YouTubeAPI:
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()
-        oauth =  await loop.run_in_executor(None, lambda: asyncio.run(check_credentials()))
+        oauth = await loop.run_in_executor(None, lambda: asyncio.run(check_credentials()))
+
         def audio_dl():
             ydl_optssx = {
                 "format": "bestaudio/best",
@@ -363,15 +364,13 @@ class YouTubeAPI:
                 "no_warnings": True,
             }
             if oauth["cookies"]:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
             elif oauth["auth"]:
-            	ydl_optssx["username"] = "oauth2"
+                ydl_optssx["username"] = "oauth2"
                 ydl_optssx["password"] = ""
-                
             else:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
+
             x = YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
@@ -390,15 +389,13 @@ class YouTubeAPI:
                 "no_warnings": True,
             }
             if oauth["cookies"]:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
             elif oauth["auth"]:
-            	ydl_optssx["username"] = "oauth2"
+                ydl_optssx["username"] = "oauth2"
                 ydl_optssx["password"] = ""
-                
             else:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
+
             x = YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
@@ -421,15 +418,13 @@ class YouTubeAPI:
                 "merge_output_format": "mp4",
             }
             if oauth["cookies"]:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
             elif oauth["auth"]:
-            	ydl_optssx["username"] = "oauth2"
+                ydl_optssx["username"] = "oauth2"
                 ydl_optssx["password"] = ""
-                
             else:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
+
             x = YoutubeDL(ydl_optssx)
             x.download([link])
 
@@ -452,15 +447,13 @@ class YouTubeAPI:
                 ],
             }
             if oauth["cookies"]:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
             elif oauth["auth"]:
-            	ydl_optssx["username"] = "oauth2"
+                ydl_optssx["username"] = "oauth2"
                 ydl_optssx["password"] = ""
-                
             else:
-            	ydl_optssx["cookiefile"] = cookies()
-            
+                ydl_optssx["cookiefile"] = cookies()
+
             x = YoutubeDL(ydl_optssx)
             x.download([link])
 
@@ -486,11 +479,10 @@ class YouTubeAPI:
 
                 if oauth["cookies"]:
                     command += ["--cookies", cookies()]
-
                 elif oauth["auth"]:
                     command += ["--username", "oauth2", "--password", ""]
                 else:
-                	command += ["--cookies", cookies()]
+                    command += ["--cookies", cookies()]
 
                 command.append(link)
 
@@ -509,4 +501,5 @@ class YouTubeAPI:
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, audio_dl)
+
         return downloaded_file, direct

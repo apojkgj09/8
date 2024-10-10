@@ -26,7 +26,7 @@ result = {"cookies": False, "auth": False}
 link = "https://youtu.be/KSP4sQ0ZGog?si=6zjZJXDwcYcacKR3"
 
 def cookies():
-    return "cookies.txt"
+    return "YukkiMusic/platforms/cookies.txt"
 
 async def check_credentials() -> dict:
     global checked

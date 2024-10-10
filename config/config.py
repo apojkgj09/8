@@ -206,7 +206,7 @@ autoclean = []
 
 START_IMG_URL = getenv(
     "START_IMG_URL",
-    "https://te.legra.ph/file/4ec5ae4381dffb039b4ef.jpg",
+    "AgACAgUAAx0Ceb8wGwABAw8VZweTEzyx5VedIR7_Gp8zK1dDUJ0AAj3DMRsv_GFV9jOEKiQBRtgACAEAAwIAA20ABx4E", # This is the file id of the photo you can also put the url of photo
 )
 
 PING_IMG_URL = getenv(

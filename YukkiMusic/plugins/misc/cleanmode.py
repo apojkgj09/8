@@ -190,8 +190,11 @@ async def braodcast_message(client, message, _):
         for num in assistants:
             sent = 0
             client = await get_client(num)
+            contacts = [user.id for user in await client.get_contacts()]
             async for dialog in client.get_dialogs():
                 if dialog.chat.id == config.LOG_GROUP_ID:
+                    continue
+                if dialog.chat.id in contacts:
                     continue
                 try:
                     (

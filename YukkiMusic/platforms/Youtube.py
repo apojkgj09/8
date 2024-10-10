@@ -285,7 +285,7 @@ class YouTubeAPI:
             ytdl_opts["cookiefile"] = cookies()
             
         elif oauth["auth"]:
-        	ytdl_opts["username"] = "oauth2"
+            ytdl_opts["username"] = "oauth2"
             ytdl_opts["password"] = ""
                 
         else:

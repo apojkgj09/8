@@ -134,6 +134,8 @@ class YouTubeAPI:
             "-g",
             "-f",
             "best[height<=?720][width<=?1280]",
+            "--username", "oauth2",
+            "--password", "",
             f"{link}",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -150,8 +152,9 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
         playlist = await shell_cmd(
-            f"yt-dlp -i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
+            f"yt-dlp -i --get-id --flat-playlist --playlist-end {limit} --skip-download --username oauth2 --password '' {link}"
         )
+
         try:
             result = playlist.split("\n")
             for key in result:
@@ -187,7 +190,7 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        ytdl_opts = {"quiet": True}
+        ytdl_opts = {"quiet": True, 'username': 'oauth2','password': '',}
         ydl = yt_dlp.YoutubeDL(ytdl_opts)
         with ydl:
             formats_available = []
@@ -259,6 +262,8 @@ class YouTubeAPI:
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                'username': 'oauth2',
+                'password': '',
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -276,6 +281,8 @@ class YouTubeAPI:
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                'username': 'oauth2',
+                'password': '',
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -297,6 +304,8 @@ class YouTubeAPI:
                 "no_warnings": True,
                 "prefer_ffmpeg": True,
                 "merge_output_format": "mp4",
+                'username': 'oauth2',
+                'password': '',
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
@@ -318,6 +327,8 @@ class YouTubeAPI:
                         "preferredquality": "192",
                     }
                 ],
+                'username': 'oauth2',
+                'password': '',
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
@@ -340,6 +351,8 @@ class YouTubeAPI:
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
+                    "--username", "oauth2",
+                    "--password", "",
                     f"{link}",
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,

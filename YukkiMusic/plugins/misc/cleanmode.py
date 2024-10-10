@@ -114,7 +114,7 @@ async def braodcast_message(client, message, _):
                 m = (
                     await app.forward_messages(i, y, x)
                     if message.reply_to_message
-                    else await app.send_message(i, text=query)
+                    else await app.send_message(i, text=query, send_direct=True)
                 )
                 if "-pin" in message.text:
                     try:
@@ -154,7 +154,7 @@ async def braodcast_message(client, message, _):
                 m = (
                     await app.forward_messages(i, y, x)
                     if message.reply_to_message
-                    else await app.send_message(i, text=query)
+                    else await app.send_message(i, text=query, send_direct=True)
                 )
                 if "-pin" in message.text:
                     try:
@@ -169,6 +169,11 @@ async def braodcast_message(client, message, _):
                     except Exception:
                         continue
                 susr += 1
+            except FloodWait as e:
+                flood_time = int(e.value)
+                if flood_time > 200:
+                    continue
+                await asyncio.sleep(flood_time)
             except Exception:
                 pass
         try:

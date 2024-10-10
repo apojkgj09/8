@@ -59,6 +59,15 @@ class YukkiBot(Client):
             if time < 25:
                 return await self.send_message(self, *args, **kwargs)
 
+    async def send_photo(self, *args, **kwargs):
+        try:
+            await super().send_photo(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                return await self.send_photo(self, *args, **kwargs)
+
     async def start(self):
         await super().start()
         get_me = await self.get_me()

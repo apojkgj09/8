@@ -249,9 +249,7 @@ async def testbot(client, message: Message, _):
     uptime = int(time.time() - _boot_)
     chat_id = message.chat.id
     await message.reply_text(
-        _["start_7"].format(get_readable_time(uptime)),
-            reply_markup=InlineKeyboardMarkup(out),
-    )
+        _["start_7"].format(get_readable_time(uptime)))
 
     return await add_served_chat(message.chat.id)
 

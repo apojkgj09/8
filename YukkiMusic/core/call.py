@@ -473,8 +473,7 @@ class Call:
                 else:
                     img = await gen_thumb(videoid)
                     button = stream_markup(_, videoid, chat_id)
-                    try:
-                        run = await app.send_photo(
+                    run = await app.send_photo(
                             original_chat_id,
                             photo=img,
                             caption=_["stream_1"].format(
@@ -485,8 +484,6 @@ class Call:
                             ),
                             reply_markup=InlineKeyboardMarkup(button),
                         )
-                    except FloodWait as e:
-                        await asyncio.sleep(e.value)
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
 

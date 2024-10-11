@@ -246,7 +246,7 @@ STREAM_IMG_URL = getenv(
 
 SOUNCLOUD_IMG_URL = getenv(
     "SOUNCLOUD_IMG_URL",
-    "https://telegra.ph/file/7645d1e04021323c21db9.jpg",
+    "https://envs.sh/nAD.jpg",
 )
 
 YOUTUBE_IMG_URL = getenv(

@@ -241,7 +241,7 @@ TELEGRAM_VIDEO_URL = getenv(
 
 STREAM_IMG_URL = getenv(
     "STREAM_IMG_URL",
-    "https://telegra.ph/file/e24f4a5f695ec5576a8f3.jpg",
+    "https://envs.sh/nAw.jpg",
 )
 
 SOUNCLOUD_IMG_URL = getenv(

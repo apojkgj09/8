@@ -38,7 +38,7 @@ auth_8 : "┗ Added by:-"
 admin_1 : "➻ Music is already paused!"
 admin_2 : "➻ Music is paused by {}!"
 admin_3 : "➻ Music is already resumed."
-admin_4 : "➻ Music is resumed by {0}"
+admin_4 : "➻ Music is resumed by {}"
 
 admin_5 : "➻ ᴍᴜsɪᴄ ɪs ᴀʟʀᴇᴀᴅʏ ᴍᴜᴛᴇᴅ"
 admin_6 : "➻ ᴍᴜsɪᴄ ɪs ᴍᴜᴛᴇᴅ ʙʏ {}!"

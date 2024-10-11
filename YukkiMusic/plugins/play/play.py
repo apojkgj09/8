@@ -450,10 +450,7 @@ async def play_commnd(
             LOGGER(__name__).error(f"{ex_type} {e}")
 
             err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
-            try:
-                return await mystic.edit_text(err)
-            except FloodWait as e:
-                await asyncio.sleep(e.value)
+            return await mystic.edit_text(err)
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:

@@ -16,7 +16,7 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import FloodWait, MessageNotModified
+from pyrogram.errors import FloodWait
 from pyrogram.types import (
     BotCommand,
     BotCommandScopeAllChatAdministrators,
@@ -40,7 +40,6 @@ class YukkiBot(Client):
             in_memory=True,
         )
 
-
     async def edit_message_text(self, *args, **kwargs):
         try:
             return await super().edit_message_text(*args, **kwargs)
@@ -51,8 +50,8 @@ class YukkiBot(Client):
                 return await self.edit_message_text(self, *args, **kwargs)
 
     async def send_message(self, *args, **kwargs):
-        if kwargs.get('send_direct', False):
-            kwargs.pop('send_direct', None)
+        if kwargs.get("send_direct", False):
+            kwargs.pop("send_direct", None)
             return await super().send_message(*args, **kwargs)
 
         try:

@@ -15,12 +15,11 @@ from YukkiMusic import app, userbot
 from YukkiMusic.core.userbot import assistants
 from YukkiMusic.utils.database import (
     get_assistant,
+    get_client,
     save_assistant,
     set_assistant,
-    get_client,
 )
 from YukkiMusic.utils.decorators import AdminActual
-from YukkiMusic.core.userbot import assistants
 
 
 async def get_assistant_details():

@@ -9,9 +9,9 @@
 #
 
 import asyncio
+from datetime import datetime
 
 from pyrogram.enums import ChatType
-from datetime import datetime
 
 import config
 from YukkiMusic import app
@@ -22,7 +22,6 @@ from YukkiMusic.utils.database import (
     is_active_chat,
     is_autoend,
 )
-
 
 autoend = {}
 

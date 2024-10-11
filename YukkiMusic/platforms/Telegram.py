@@ -9,13 +9,12 @@
 #
 
 import asyncio
-import aiohttp
 import os
 import time
 from datetime import datetime, timedelta
 from typing import Union
 
-import httpx
+import aiohttp
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
 
 import config

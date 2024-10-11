@@ -11,11 +11,11 @@ import asyncio
 
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
+    ChannelsTooMuch,
     ChatAdminRequired,
     InviteRequestSent,
     UserAlreadyParticipant,
     UserNotParticipant,
-    ChannelsTooMuch,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -23,7 +23,7 @@ from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
 from strings import get_string
-from YukkiMusic import YouTube, app, userbot
+from YukkiMusic import YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import (
@@ -41,6 +41,7 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.inline import botplaylist_markup
 
 links = {}
+
 
 async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
     max_attempts = len(userbot.clients) - 1  # Set the maximum number of attempts
@@ -81,18 +82,24 @@ async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
     except ChannelsTooMuch:
         if attempts <= max_attempts:
             userbot = await set_assistant(chat_id)
-            return await join_chat(client, message, userbot, chat_id, _, myu, attempts + 1)
+            return await join_chat(
+                client, message, userbot, chat_id, _, myu, attempts + 1
+            )
         else:
             return await myu.edit(_["call_9"].format(SUPPORT_CHAT))
     except FloodWait as e:
         time = e.value
         if time < 20:
             await asyncio.sleep(time)
-            return await join_chat(client, message, userbot, chat_id, _, myu, attempts + 1)
+            return await join_chat(
+                client, message, userbot, chat_id, _, myu, attempts + 1
+            )
         else:
             if attempts <= max_attempts:
                 userbot = await set_assistant(chat_id)
-                return await join_chat(client, message, userbot, chat_id, _, myu, attempts + 1)
+                return await join_chat(
+                    client, message, userbot, chat_id, _, myu, attempts + 1
+                )
 
             return await myu.edit(_["call_10"].format(time))
     except Exception as e:
@@ -102,7 +109,6 @@ async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
         await myu.delete()
     except:
         pass
-
 
 
 def PlayWrapper(command):
@@ -175,7 +181,7 @@ def PlayWrapper(command):
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
                 return await message.reply_text(
-                  "**No active video chat found **\n\nPlease make sure you started the voicechat."
+                    "**No active video chat found **\n\nPlease make sure you started the voicechat."
                 )
         except Exception:
             pass

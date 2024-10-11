@@ -18,9 +18,7 @@ from youtubesearchpython.__future__ import VideosSearch
 import config
 from config import BANNED_USERS, START_IMG_URL
 from config.config import OWNER_ID
-from strings import get_string
-from strings import get_command
-
+from strings import get_command, get_string
 from YukkiMusic import HELPABLE, Telegram, YouTube, app
 from YukkiMusic.misc import SUDOERS, _boot_
 from YukkiMusic.plugins.play.playlist import del_plist_msg
@@ -248,8 +246,7 @@ async def start_comm(client, message: Message, _):
 async def testbot(client, message: Message, _):
     uptime = int(time.time() - _boot_)
     chat_id = message.chat.id
-    await message.reply_text(
-        _["start_7"].format(get_readable_time(uptime)))
+    await message.reply_text(_["start_7"].format(get_readable_time(uptime)))
 
     return await add_served_chat(message.chat.id)
 

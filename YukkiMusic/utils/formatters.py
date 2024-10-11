@@ -7,11 +7,6 @@
 #
 # All rights reserved.
 
-import os
-import threading
-
-import requests
-
 
 def get_readable_time(seconds: int) -> str:
     count = 0

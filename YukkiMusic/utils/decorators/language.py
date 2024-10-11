@@ -7,10 +7,12 @@
 #
 # All rights reserved.
 #
+from pyrogram.enums import ChatType
+
 from strings import get_string
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import get_lang, is_commanddelete_on, is_maintenance
-from pyrogram.enums import ChatType
+
 
 def language(mystic):
     async def wrapper(_, message, **kwargs):
@@ -43,9 +45,9 @@ def languageCB(mystic):
             if CallbackQuery.from_user.id not in SUDOERS:
                 if CallbackQuery.message.chat.type == ChatType.PRIVATE:
                     return await CallbackQuery.answer(
-                    "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
-                    show_alert=True,
-                )
+                        "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
+                        show_alert=True,
+                    )
                 return
         try:
             language = await get_lang(CallbackQuery.message.chat.id)

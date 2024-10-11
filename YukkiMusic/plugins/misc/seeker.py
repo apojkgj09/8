@@ -9,9 +9,9 @@
 #
 import asyncio
 import time
+from datetime import datetime, timedelta
 
 from pyrogram.types import InlineKeyboardMarkup
-from datetime import datetime, timedelta
 
 from strings import get_string
 from YukkiMusic.core.call import Yukki
@@ -26,8 +26,8 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.formatters import seconds_to_min
 from YukkiMusic.utils.inline import stream_markup_timer, telegram_markup_timer
 
-from .autoleave import autoend
 from ..admins.callback import wrong
+from .autoleave import autoend
 
 checker = {}
 muted = {}

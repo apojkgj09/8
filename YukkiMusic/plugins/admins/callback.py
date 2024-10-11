@@ -10,7 +10,7 @@
 import random
 
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 
 from config import (
     BANNED_USERS,
@@ -43,9 +43,7 @@ from YukkiMusic.utils.inline.play import (
     panel_markup_3,
     stream_markup,
     telegram_markup,
-    stream_markup,
 )
-
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 

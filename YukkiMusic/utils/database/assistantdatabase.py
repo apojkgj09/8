@@ -9,6 +9,7 @@
 #
 
 import random
+
 from pytgcalls import PyTgCalls
 
 from YukkiMusic import userbot
@@ -35,6 +36,7 @@ async def save_assistant(chat_id, number):
         upsert=True,
     )
     return await get_assistant(chat_id)
+
 
 async def set_assistant(chat_id):
     from YukkiMusic.core.userbot import assistants

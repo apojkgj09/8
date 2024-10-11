@@ -32,7 +32,7 @@ def AdminRightsCheck(mystic):
     async def wrapper(client, message):
         if not await is_maintenance():
             if message.from_user.id not in SUDOERS:
-                return 
+                return
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()

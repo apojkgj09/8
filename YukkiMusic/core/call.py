@@ -11,7 +11,6 @@ import asyncio
 from typing import Union
 
 from ntgcalls import TelegramServerError
-from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls, filters
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
@@ -23,6 +22,7 @@ from pytgcalls.types import (
     StreamVideoEnded,
     Update,
 )
+
 import config
 from strings import get_string
 from YukkiMusic import LOGGER, YouTube, app, userbot
@@ -474,16 +474,16 @@ class Call:
                     img = await gen_thumb(videoid)
                     button = stream_markup(_, videoid, chat_id)
                     run = await app.send_photo(
-                            original_chat_id,
-                            photo=img,
-                            caption=_["stream_1"].format(
-                                title[:27],
-                                f"https://t.me/{app.username}?start=info_{videoid}",
-                                check[0]["dur"],
-                                user,
-                            ),
-                            reply_markup=InlineKeyboardMarkup(button),
-                        )
+                        original_chat_id,
+                        photo=img,
+                        caption=_["stream_1"].format(
+                            title[:27],
+                            f"https://t.me/{app.username}?start=info_{videoid}",
+                            check[0]["dur"],
+                            user,
+                        ),
+                        reply_markup=InlineKeyboardMarkup(button),
+                    )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
 

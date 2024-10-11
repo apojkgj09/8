@@ -7,17 +7,17 @@
 #
 # All rights reserved.
 #
+import asyncio
 import os
 import re
-import asyncio
-import config
 from typing import Union
 
-from yt_dlp import YoutubeDL
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
+from yt_dlp import YoutubeDL
 
+import config
 from YukkiMusic.utils.database import is_on_off
 from YukkiMusic.utils.formatters import time_to_seconds
 
@@ -25,15 +25,17 @@ checked = None
 result = {"cookies": False, "auth": False}
 link = "https://youtu.be/KSP4sQ0ZGog?si=6zjZJXDwcYcacKR3"
 
+
 def cookies():
     return "YukkiMusic/platforms/cookies.txt"
 
+
 async def check_credentials() -> dict:
     global checked
-    
+
     if checked is not None:
         return result
-    
+
     async def check_cookies():
         proc = await asyncio.create_subprocess_shell(
             f"yt-dlp --cookies {cookies()} -F {link}",
@@ -61,7 +63,7 @@ async def check_credentials() -> dict:
         stdout, stderr = await proc.communicate()
         if proc.returncode != 0:
             raise Exception("Authentication failed")
-    
+
     if os.getenv("TOKEN_DATA") and os.path.exists(cookies()):
         await asyncio.gather(check_cookies(), check_auth())
         checked = True
@@ -71,10 +73,10 @@ async def check_credentials() -> dict:
     elif os.path.exists(cookies()) and not os.getenv("TOKEN_DATA"):
         await check_cookies()
         checked = True
-    
+
     return result
 
-            
+
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
         cmd,
@@ -183,7 +185,9 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
         loop = asyncio.get_running_loop()
-        oauth =  await loop.run_in_executor(None, lambda: asyncio.run(check_credentials()))
+        oauth = await loop.run_in_executor(
+            None, lambda: asyncio.run(check_credentials())
+        )
         if oauth["cookies"]:
             proc = await asyncio.create_subprocess_exec(
                 "yt-dlp",
@@ -202,8 +206,10 @@ class YouTubeAPI:
                 "-g",
                 "-f",
                 "best[height<=?720][width<=?1280]",
-                "--username", "oauth2",
-                "--password", "",
+                "--username",
+                "oauth2",
+                "--password",
+                "",
                 f"{link}",
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
@@ -217,13 +223,12 @@ class YouTubeAPI:
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
             )
-            
+
         stdout, stderr = await proc.communicate()
         if stdout:
             return 1, stdout.decode().split("\n")[0]
         else:
             return 0, stderr.decode()
-
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
         if videoid:
@@ -231,7 +236,9 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
         loop = asyncio.get_running_loop()
-        oauth =  await loop.run_in_executor(None, lambda: asyncio.run(check_credentials()))
+        oauth = await loop.run_in_executor(
+            None, lambda: asyncio.run(check_credentials())
+        )
 
         if oauth["cookies"]:
             playlist = await shell_cmd(
@@ -244,7 +251,7 @@ class YouTubeAPI:
         else:
             playlist = await shell_cmd(
                 f"yt-dlp -i --get-id --flat-playlist --playlist-end {limit} --skip-download --cookies {cookies()} {link}"
-            )     
+            )
         try:
             result = playlist.split("\n")
             for key in result:
@@ -283,13 +290,13 @@ class YouTubeAPI:
         ytdl_opts = {"quiet": True}
         if oauth["cookies"]:
             ytdl_opts["cookiefile"] = cookies()
-            
+
         elif oauth["auth"]:
             ytdl_opts["username"] = "oauth2"
             ytdl_opts["password"] = ""
-                
+
         else:
-        	ytdl_opts["cookiefile"] = cookies()
+            ytdl_opts["cookiefile"] = cookies()
         ydl = YoutubeDL(ytdl_opts)
         with ydl:
             formats_available = []
@@ -352,7 +359,9 @@ class YouTubeAPI:
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()
-        oauth = await loop.run_in_executor(None, lambda: asyncio.run(check_credentials()))
+        oauth = await loop.run_in_executor(
+            None, lambda: asyncio.run(check_credentials())
+        )
 
         def audio_dl():
             ydl_optssx = {

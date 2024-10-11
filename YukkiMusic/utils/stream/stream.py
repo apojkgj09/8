@@ -15,7 +15,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
-from YukkiMusic import Carbon, YouTube, Saavn, app, LOGGER
+from YukkiMusic import Carbon, Saavn, YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
 from YukkiMusic.utils.database import (
@@ -219,8 +219,8 @@ async def stream(
                 print(ex)
     elif "saavn" in streamtype:
         if streamtype == "saavn_track":
-            if result["duration_sec"] ==0:
-                return 
+            if result["duration_sec"] == 0:
+                return
             file_path = result["filepath"]
             title = result["title"]
             duration_min = result["duration_min"]
@@ -281,7 +281,7 @@ async def stream(
             msg = f"{_['playlist_16']}\n\n"
             count = 0
             for search in result:
-                if search["duration_sec"] ==0:
+                if search["duration_sec"] == 0:
                     continue
                 title = search["title"]
                 duration_min = search["duration_min"]

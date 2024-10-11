@@ -53,7 +53,6 @@ def dbb():
     LOGGER(__name__).info(f"Database Initialized.")
 
 
-
 def sudo():
     global SUDOERS
     OWNER = config.OWNER_ID
@@ -77,6 +76,7 @@ def sudo():
             for x in sudoers:
                 SUDOERS.add(x)
     LOGGER(__name__).info(f"Sudoers Loaded.")
+
 
 def heroku():
     global HAPP

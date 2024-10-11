@@ -91,7 +91,7 @@ async def ping_com(client, message: Message, _):
         elif videoid == "soundcloud":
             IMAGE = config.SOUNCLOUD_IMG_URL
         elif "saavn" in videoid:
-        	IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
+            IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
         else:
             IMAGE = get_image(videoid)
     send = (
@@ -147,7 +147,6 @@ async def ping_com(client, message: Message, _):
                     break
         except:
             return
-
 
 
 @app.on_callback_query(filters.regex("GetTimer") & ~BANNED_USERS)
@@ -277,7 +276,7 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
         elif videoid == "soundcloud":
             IMAGE = config.SOUNCLOUD_IMG_URL
         elif "saavn" in videoid:
-        	IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
+            IMAGE = got[0].get("thumb") or config.TELEGRAM_AUDIO_URL
         else:
             IMAGE = get_image(videoid)
     send = (
@@ -335,4 +334,3 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
                     break
         except:
             return
-            

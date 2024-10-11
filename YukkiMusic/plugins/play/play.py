@@ -8,19 +8,26 @@
 # All rights reserved.
 #
 
-import asyncio
 import random
 import string
 
 from pyrogram import filters
-from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 
 import config
 from config import BANNED_USERS, lyrical
 from strings import get_command
-
-from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Saavn, Telegram, YouTube, app, LOGGER 
+from YukkiMusic import (
+    LOGGER,
+    Apple,
+    Resso,
+    Saavn,
+    SoundCloud,
+    Spotify,
+    Telegram,
+    YouTube,
+    app,
+)
 from YukkiMusic.utils import seconds_to_min, time_to_seconds
 from YukkiMusic.utils.channelplay import get_channeplayCB
 from YukkiMusic.utils.database import is_video_allowed
@@ -310,8 +317,8 @@ async def play_commnd(
                     )
                     streamtype = "saavn_playlist"
                 except Exception as e:
-                    ex_type = type(e).__name__                
-                    LOGGER(__name__).error(f"{ex_type} {e}")  
+                    ex_type = type(e).__name__
+                    LOGGER(__name__).error(f"{ex_type} {e}")
                     return await mystic.edit_text(_["play_3"])
 
                 if len(details) == 0:
@@ -333,7 +340,6 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
-
 
         elif await SoundCloud.valid(url):
             try:
@@ -510,6 +516,8 @@ async def play_commnd(
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
+
+
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
 async def play_music(client, CallbackQuery, _):

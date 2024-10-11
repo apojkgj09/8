@@ -9,9 +9,12 @@
 #
 import asyncio
 import sys
+
 from pyrogram import Client
-from ..logging import LOGGER
+
 import config
+
+from ..logging import LOGGER
 
 assistants = []
 assistantids = []

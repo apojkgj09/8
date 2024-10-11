@@ -103,7 +103,7 @@ A heartfelt thanks to the following incredible projects and peoples, without who
 
 ### Contributors
 
-<img src="https://contrib.nn.ci/api?repo=TheTeamVivek/YukkiMusic&radius=100" alt="Contributors" />
+<img src="https://contrib.nn.ci/api?repo=TheTeamVivek/YukkiMusic&radius=150" alt="Contributors" />
 
 ---
 

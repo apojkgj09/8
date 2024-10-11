@@ -30,11 +30,9 @@ from ..formatters import int_to_alpha
 
 def AdminRightsCheck(mystic):
     async def wrapper(client, message):
-        if await is_maintenance() is False:
+        if not await is_maintenance():
             if message.from_user.id not in SUDOERS:
-                return await message.reply_text(
-                    "Bot is under maintenance. Please wait for some time..."
-                )
+                return 
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
@@ -85,11 +83,10 @@ def AdminRightsCheck(mystic):
 
 def AdminActual(mystic):
     async def wrapper(client, message):
-        if await is_maintenance() is False:
+        if not await is_maintenance():
             if message.from_user.id not in SUDOERS:
-                return await message.reply_text(
-                    "Bot is under maintenance. Please wait for some time..."
-                )
+                return
+
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
@@ -129,12 +126,9 @@ def AdminActual(mystic):
 
 def ActualAdminCB(mystic):
     async def wrapper(client, CallbackQuery):
-        if await is_maintenance() is False:
+        if not await is_maintenance() is False:
             if CallbackQuery.from_user.id not in SUDOERS:
-                return await CallbackQuery.answer(
-                    "Bot is under maintenance. Please wait for some time...",
-                    show_alert=True,
-                )
+                return
         try:
             language = await get_lang(CallbackQuery.message.chat.id)
             _ = get_string(language)

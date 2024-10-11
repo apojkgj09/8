@@ -43,7 +43,7 @@ from YukkiMusic.utils.inline import botplaylist_markup
 links = {}
 
 async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
-    max_attempts = len(userbot.clients) - 1 # Set the maximum number of attempts
+    max_attempts = len(userbot.clients) - 1  # Set the maximum number of attempts
 
     if chat_id in links:
         invitelink = links[chat_id]
@@ -93,8 +93,8 @@ async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
             if attempts <= max_attempts:
                 userbot = await set_assistant(chat_id)
                 return await join_chat(client, message, userbot, chat_id, _, myu, attempts + 1)
-        
-            return await myu.edit(_["call_10"].format(time)
+
+            return await myu.edit(_["call_10"].format(time))
     except Exception as e:
         return await myu.edit(_["call_3"].format(type(e).__name__))
 

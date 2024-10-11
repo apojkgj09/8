@@ -22,7 +22,7 @@ call_6 : "{0} asistan hesabı başarıyla katıldı.\n\nŞimdi müzik başlatıl
 call_7 : "**Akış değiştirme başarısız oldu**\nLütfen parçayı değiştirmek için /skip kullanın."
 call_8 : "Çalma listesinden sonraki parçayı indiriyor...."
 call_9 : "Asistan çok fazla sohbete katıldı, bu yüzden buraya katılamıyor.\nBu sorunu çözmek ve bildirmek için [Destek Grubu]({0}) ile iletişime geçin."
-
+call_10: "Asistan, katılma/ayrılma nedeniyle FloodWait'te, lütfen {0} saniye bekleyin"
 
 # PLUGINS - Auth.py
 auth_1 : "Grubunuzun yetkili kullanıcılar listesinde (aul) sadece 20 kullanıcı olabilir."

@@ -76,13 +76,14 @@ If you need help or have any questions, feel free to reach out through any of th
 
 # ❤️ Show Your Support
 
-If you'd like to say **thank you** or support the ongoing development of YukkiMusicBot, you can:
+If you'd like to say **thank you** or support the ongoing development of YukkiMusic and YukkiMusicBot, you can:
 
-- ⭐ [Star the Project](https://github.com/TeamYukki/YukkiMusicBot) on GitHub.
-- 🍴 [Fork the Repository](https://github.com/TheTeamVivek/YukkiMusic) and contribute.
-- 📝 Share your experience with tutorials or articles on [Dev.to](https://dev.to/), [Medium](https://medium.com/), or your personal blog to share your experience.
+- ⭐ [Star the YukkiMusicBot Project](https://github.com/TeamYukki/YukkiMusicBot) and [YukkiMusic](https://github.com/TheTeamVivek/YukkiMusic) on GitHub.
+- 🍴 [Fork the YukkiMusic Repository](https://github.com/TheTeamVivek/YukkiMusic) and contribute.
+- 📝 Share your experience with tutorials or articles on [Dev.to](https://dev.to/), [Medium](https://medium.com/), or your personal blog.
 
-Together, we can make **YukkiMusic** even better!
+Together, we can make **YukkiMusic** and **YukkiMusicBot** even better!
+
 
 # 📑 Acknowledgements / Credits
 

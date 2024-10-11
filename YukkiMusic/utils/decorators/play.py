@@ -25,6 +25,7 @@ from config import adminlist
 from strings import get_string
 from YukkiMusic import YouTube, app
 from YukkiMusic.core.call import Yukki
+from YukkiMusic.core.userbot import assistants
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import (
     get_assistant,
@@ -39,7 +40,6 @@ from YukkiMusic.utils.database import (
     set_assistant,
 )
 from YukkiMusic.utils.inline import botplaylist_markup
-from YukkiMusic.core.userbot import assistants
 
 links = {}
 

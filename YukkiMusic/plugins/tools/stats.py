@@ -113,15 +113,12 @@ async def gstats_global(client, message: Message, _):
     title = title.title()
     final = f"ᴛᴏᴘ ᴍᴏsᴛ ᴘʟᴀʏᴇᴅ ᴛʀᴀᴄᴋ's ᴏɴ ʙᴏᴛ {app.mention}\n\n**ᴛɪᴛʟᴇ:** {title}\n\nᴘʟᴀʏᴇᴅ** {co} **ᴛɪᴍᴇs"
     upl = get_stats_markup(_, True if message.from_user.id in SUDOERS else False)
-    try:
-        await app.send_photo(
+    await app.send_photo(
             message.chat.id,
             photo=thumbnail,
             caption=final,
             reply_markup=upl,
-        )
-    except FloodWait as e:
-        asyncio.sleep(e.value)
+    )
     await mystic.delete()
 
 

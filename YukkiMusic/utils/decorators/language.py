@@ -39,12 +39,14 @@ def language(mystic):
 
 def languageCB(mystic):
     async def wrapper(_, CallbackQuery, **kwargs):
-        if await is_maintenance() is False:
+        if not await is_maintenance():
             if CallbackQuery.from_user.id not in SUDOERS:
-                return await CallbackQuery.answer(
+                if CallbackQuery.message.chat.type == ChatType.PRIVATE:
+                    return await CallbackQuery.answer(
                     "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
                     show_alert=True,
                 )
+                return
         try:
             language = await get_lang(CallbackQuery.message.chat.id)
             language = get_string(language)

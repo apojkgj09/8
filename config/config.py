@@ -256,7 +256,7 @@ YOUTUBE_IMG_URL = getenv(
 
 SPOTIFY_ARTIST_IMG_URL = getenv(
     "SPOTIFY_ARTIST_IMG_URL",
-    "https://telegra.ph/file/b7758d4e1bc32aa9fb6ec.jpg",
+    "https://envs.sh/nA9.jpg",
 )
 
 SPOTIFY_ALBUM_IMG_URL = getenv(

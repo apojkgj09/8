@@ -36,9 +36,7 @@ STOP_COMMAND = get_command("STOP_COMMAND")
 async def stop_music(cli, message: Message):
     if await is_maintenance() is False:
         if message.from_user.id not in SUDOERS:
-            return await message.reply_text(
-                "Bot is under maintenance. Please wait for some time..."
-            )
+            return
     if not len(message.command) < 2:
         if extra_plugins_enabled:
             if not message.command[0][0] == "c" and not message.command[0][0] == "e":

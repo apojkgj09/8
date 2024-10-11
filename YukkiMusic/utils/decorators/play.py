@@ -39,12 +39,13 @@ from YukkiMusic.utils.database import (
     set_assistant,
 )
 from YukkiMusic.utils.inline import botplaylist_markup
+from YukkiMusic.core.userbot import assistants
 
 links = {}
 
 
 async def join_chat(client, message, userbot, chat_id, _, myu, attempts=1):
-    max_attempts = len(userbot.clients) - 1  # Set the maximum number of attempts
+    max_attempts = len(assistants) - 1  # Set the maximum number of attempts
 
     if chat_id in links:
         invitelink = links[chat_id]

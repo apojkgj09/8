@@ -231,12 +231,12 @@ STATS_IMG_URL = getenv(
 
 TELEGRAM_AUDIO_URL = getenv(
     "TELEGRAM_AUDIO_URL",
-    "https://telegra.ph/file/8234d704952738ebcda7f.jpg",
+    "https://envs.sh/npk.jpg",
 )
 
 TELEGRAM_VIDEO_URL = getenv(
     "TELEGRAM_VIDEO_URL",
-    "https://telegra.ph/file/8d02ff3bde400e465219a.jpg",
+    "https://envs.sh/np7.jpg",
 )
 
 STREAM_IMG_URL = getenv(
@@ -251,7 +251,7 @@ SOUNCLOUD_IMG_URL = getenv(
 
 YOUTUBE_IMG_URL = getenv(
     "YOUTUBE_IMG_URL",
-    "https://telegra.ph/file/76d29aa31c40a7f026d7e.jpg",
+    "https://envs.sh/npl.jpg",
 )
 
 SPOTIFY_ARTIST_IMG_URL = getenv(
@@ -261,7 +261,7 @@ SPOTIFY_ARTIST_IMG_URL = getenv(
 
 SPOTIFY_ALBUM_IMG_URL = getenv(
     "SPOTIFY_ALBUM_IMG_URL",
-    "https://telegra.ph/file/60ed85638e00df10985db.jpg",
+    "https://envs.sh/nps.jpg",
 )
 
 SPOTIFY_PLAYLIST_IMG_URL = getenv(

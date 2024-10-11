@@ -22,6 +22,7 @@ call_6 : "ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴏғ {0} ᴊᴏɪɴᴇᴅ s�
 call_7 : "**ꜰᴀɪʟᴇᴅ ᴛᴏ sᴡɪᴛᴄʜ sᴛʀᴇᴀᴍ**\nᴘʟᴇᴀsᴇ ᴜsᴇ /sᴋɪᴘ ᴛᴏ ᴄʜᴀɴɢᴇ ᴛʀᴀᴄᴋ ᴀɢᴀɪɴ."
 call_8 : "ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ꜰʀᴏᴍ ᴘʟᴀʏʟɪsᴛ...."
 call_9 : "Assistant is joined too much chats, therefore assistant can't join here\nContact [Support Group]({0}) To fix and inform this problem"
+call_10: "Assistant is on FloodWait due to join/leave please wait {0} seconds"
 
 # PLUGINS - Auth.py
 auth_1 : "ʏᴏᴜ ᴄᴀɴ ᴏɴʟʏ ʜᴀᴠᴇ 20 ᴜsᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ's ᴀᴜᴛʜᴏʀɪsᴇᴅ ᴜsᴇʀs ʟɪsᴛ (aul)"

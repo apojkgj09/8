@@ -234,7 +234,7 @@ def PlayWrapper(command):
                             text=_["call_2"].format(userbot.username, userbot.id),
                         )
             except UserNotParticipant:
-                await join_chat(client, message, userbot, chat_id, _)
+                await join_chat(client, message, userbot, chat_id, _, myu)
 
         return await command(
             client,

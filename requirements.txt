@@ -5,7 +5,6 @@ dnspython
 ffmpeg-python
 gitpython
 heroku3
-httpx[http2]
 lyricsgenius
 motor
 pillow==9.5.0

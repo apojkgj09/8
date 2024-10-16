@@ -44,8 +44,8 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="help_module({},{})".format(
-                        x.__MODULE__.lower(), page_n
+                    callback_data="help_module({},{},{})".format(
+                        x.__MODULE__.lower(), page_n, int(close)
                     ),
                 )
                 for x in module_dict.values()
@@ -56,8 +56,8 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="help_module({},{},{})".format(
-                        chat, x.__MODULE__.lower(), page_n
+                    callback_data="help_module({},{},{},{})".format(
+                        chat, x.__MODULE__.lower(), page_n, int(close)
                     ),
                 )
                 for x in module_dict.values()
@@ -71,8 +71,8 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
     navigation_buttons = [
         EqInlineKeyboardButton(
             "❮",
-            callback_data="help_prev({})".format(
-                modulo_page - 1 if modulo_page > 0 else max_num_pages - 1,
+            callback_data="help_prev({},{})".format(
+                modulo_page - 1 if modulo_page > 0 else max_num_pages - 1, int(close),
             ),
         ),
         EqInlineKeyboardButton(
@@ -81,7 +81,7 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
         ),
         EqInlineKeyboardButton(
             "❯",
-            callback_data="help_next({})".format(modulo_page + 1),
+            callback_data="help_next({},{})".format(modulo_page + 1, int(close)),
         ),
     ]
 
@@ -99,6 +99,7 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
         )
 
     return pairs
+
 
 
 @app.on_message(filters.command(HELP_COMMAND) & filters.private & ~BANNED_USERS)
@@ -150,18 +151,17 @@ async def help_com_group(client, message: Message, _):
     await message.reply_text(_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard))
 
 
-async def help_parser(name, keyboard=None):
-    if not keyboard:
-        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE))
+async def help_keyboard():
+    keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE))
     return keyboard
 
 
 @app.on_callback_query(filters.regex(r"help_(.*?)"))
 async def help_button(client, query):
-    mod_match = re.match(r"help_module\((.+?),(.+?)\)", query.data)
-    prev_match = re.match(r"help_prev\((.+?)\)", query.data)
-    next_match = re.match(r"help_next\((.+?)\)", query.data)
-    back_match = re.match(r"help_back\((\d+)\)", query.data)
+    mod_match = re.match(r"help_module\((.+?),(.+?),(\d+)\)", query.data)
+    prev_match = re.match(r"help_prev\((.+?),(\d+)\)", query.data)
+    next_match = re.match(r"help_next\((.+?),(\d+)\)", query.data)
+    back_match = re.match(r"help_back\((\d+),(\d+)\)", query.data)
 
     try:
         language = await get_lang(query.message.chat.id)
@@ -174,6 +174,7 @@ async def help_button(client, query):
     if mod_match:
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
+        close = bool(int(mod_match.group(3)))
         text = (
             f"<b><u>Here is the help for {HELPABLE[module].__MODULE__}:</u></b>\n"
             + HELPABLE[module].__HELP__
@@ -182,7 +183,7 @@ async def help_button(client, query):
             [
                 [
                     InlineKeyboardButton(
-                        text="↪️ Back", callback_data=f"help_back({prev_page_num})"
+                        text="↪️ Back", callback_data=f"help_back({prev_page_num},{int(close)})"
                     ),
                     InlineKeyboardButton(text="🔄 close", callback_data="close"),
                 ],
@@ -196,30 +197,33 @@ async def help_button(client, query):
 
     elif prev_match:
         curr_page = int(prev_match.group(1))
+        close = bool(int(prev_match.group(2)))
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(curr_page, HELPABLE, close=True if "close" in query.data else False)
+                paginate_modules(curr_page, HELPABLE, close=close)
             ),
             disable_web_page_preview=True,
         )
 
     elif next_match:
         next_page = int(next_match.group(1))
+        close = bool(int(next_match.group(2)))
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(next_page, HELPABLE, close=True if "close" in query.data else False)
+                paginate_modules(next_page, HELPABLE, close=close)
             ),
             disable_web_page_preview=True,
         )
 
     elif back_match:
         prev_page_num = int(back_match.group(1))
+        close = bool(int(back_match.group(2)))
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(prev_page_num, HELPABLE, close=True if "close" in query.data else False)
+                paginate_modules(prev_page_num, HELPABLE, close=close)
             ),
             disable_web_page_preview=True,
         )

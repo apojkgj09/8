@@ -39,13 +39,13 @@ class EqInlineKeyboardButton(InlineKeyboardButton):
         return self.text > other.text
 
 def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
-    if not chat:
+    if chat:
         modules = sorted(
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="help_module({},{},{})".format(
-                        x.__MODULE__.lower(), page_n, int(close)
+                    callback_data="help_module({},{},{},{})".format(
+                        chat, x.__MODULE__.lower(), page_n, int(close)
                     ),
                 )
                 for x in module_dict.values()
@@ -56,8 +56,8 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="help_module({},{},{},{})".format(
-                        chat, x.__MODULE__.lower(), page_n, int(close)
+                    callback_data="help_module({},{},{})".format(
+                        x.__MODULE__.lower(), page_n, int(close)
                     ),
                 )
                 for x in module_dict.values()
@@ -158,6 +158,7 @@ async def help_keyboard():
 
 @app.on_callback_query(filters.regex(r"help_(.*?)"))
 async def help_button(client, query):
+    chat_match = re.match(r"help_module\((.+?),(.+?),(.+?),(\d+)\)", query.data)
     mod_match = re.match(r"help_module\((.+?),(.+?),(\d+)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?),(\d+)\)", query.data)
     next_match = re.match(r"help_next\((.+?),(\d+)\)", query.data)
@@ -171,7 +172,32 @@ async def help_button(client, query):
 
     top_text = _["help_1"]
 
-    if mod_match:
+    if chat_match:
+        chat_id = chat_match.group(1)
+        module = chat_match.group(2)
+        prev_page_num = int(chat_match.group(3))
+        close = int(chat_match.group(4)) == 1
+        text = (
+            f"<b><u>Here is the help for {HELPABLE[module].__MODULE__}:</u></b>\n"
+            + HELPABLE[module].__HELP__
+        )
+        key = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="↪️ Back", callback_data=f"help_back({prev_page_num},{int(close)})"
+                    ),
+                    InlineKeyboardButton(text="🔄 close", callback_data="close"),
+                ],
+            ]
+        )
+        await query.message.edit(
+            text=text,
+            reply_markup=key,
+            disable_web_page_preview=True,
+        )
+
+    elif mod_match:
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
         close = int(mod_match.group(3)) == 1

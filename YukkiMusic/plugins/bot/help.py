@@ -174,7 +174,7 @@ async def help_button(client, query):
     if mod_match:
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
-        close = bool(int(mod_match.group(3)))
+        close = mod_match.group(3) == '1'
         text = (
             f"<b><u>Here is the help for {HELPABLE[module].__MODULE__}:</u></b>\n"
             + HELPABLE[module].__HELP__
@@ -183,7 +183,7 @@ async def help_button(client, query):
             [
                 [
                     InlineKeyboardButton(
-                        text="↪️ Back", callback_data=f"help_back({prev_page_num},{int(close)})"
+                        text="↪️ Back", callback_data=f"help_back({prev_page_num},{mod_match.group(3)})"
                     ),
                     InlineKeyboardButton(text="🔄 close", callback_data="close"),
                 ],
@@ -197,7 +197,7 @@ async def help_button(client, query):
 
     elif prev_match:
         curr_page = int(prev_match.group(1))
-        close = bool(int(prev_match.group(2)))
+        close = prev_match.group(2) == '1'
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
@@ -208,7 +208,7 @@ async def help_button(client, query):
 
     elif next_match:
         next_page = int(next_match.group(1))
-        close = bool(int(next_match.group(2)))
+        close = next_match.group(2) == '1'
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
@@ -219,7 +219,7 @@ async def help_button(client, query):
 
     elif back_match:
         prev_page_num = int(back_match.group(1))
-        close = bool(int(back_match.group(2)))
+        close = back_match.group(2) == '1'
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(

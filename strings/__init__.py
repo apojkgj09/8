@@ -27,7 +27,7 @@ def get_command(value: str, language: str = "en", include_english: bool = True) 
         available_commands = ", ".join(commands.keys())
         raise KeyError(
             f"Command '{value}' does not exist. "
-            f"Please ensure the command is defined in the YAML files under './strings/commands/'. "
+            f"Please ensure the command is defined in the YAML files under './strings/cmds/'. "
             f"Available commands are: {available_commands}"
         )
     command_list = commands[value].get(language, [])
@@ -36,9 +36,15 @@ def get_command(value: str, language: str = "en", include_english: bool = True) 
     return command_list
 
 
-def command(cmd: str, language: str = "en", include_english=False) -> str:
-    cmds = " ".join([f"/{c}" for c in get_command(cmd, language)])
-    return cmds
+def command(cmd: str) -> str:
+    if value not in commands:
+        available_commands = ", ".join(commands.keys())
+        raise KeyError(
+            f"Command '{value}' does not exist. "
+            f"Please ensure the command is defined in the YAML files under './strings/cmds/'. "
+            f"Available commands are: {available_commands}"
+        )
+    command_list = commands[cmd].get("en", [])
 
 
 

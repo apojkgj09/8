@@ -57,6 +57,8 @@ SHUFFLE_COMMAND : ["shuffle", "cshuffle"]
 LOOP_COMMAND : ["loop", "cloop"]
 SEEK_COMMAND : ["seek", "cseek", "seekback", "cseekback"]
 REBOOT_COMMAND : ["reboot"]
+VC_MUTE: ["vcmute"]
+VC_UNMUTE: [vcunmute]
 
 # Sudo Users Commaands
 

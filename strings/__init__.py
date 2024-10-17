@@ -44,7 +44,7 @@ def command(cmd: str) -> str:
             f"Please ensure the command is defined in the YAML files under './strings/cmds/'. "
             f"Available commands are: {available_commands}"
         )
-    command_list = commands[cmd].get("en", [])
+    return commands[cmd].get("en", [])
 
 
 

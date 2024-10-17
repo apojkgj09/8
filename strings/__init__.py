@@ -46,7 +46,7 @@ def get_string(lang: str):
     return languages[lang]
 
 
-for filename in os.listdir(r"./strings/commands"):
+for filename in os.listdir(r"./strings/cmds"):
     if filename.endswith(".yml"):
         language_code = filename[:-4]
         with open(f"./strings/commands/{filename}", encoding="utf8") as file:

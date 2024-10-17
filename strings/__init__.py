@@ -8,7 +8,12 @@
 # All rights reserved
 import os
 import sys
-from typing import List, Dict
+import re
+from typing import Union, List, Dict
+from pyrogram import Client
+from pyrogram.types import Message
+from pyrogram.filters import create
+from YukkiMusic.utils.database import get_lang
 
 import yaml
 
@@ -18,19 +23,21 @@ commands = {}
 languages_present = {}
 
 
-def get_command(value: str, language: str = "en") -> List[str]:
+def get_command(value: str, language: str = "en", include_english: bool = True) -> List[str]:
     if value not in commands:
         available_commands = ", ".join(commands.keys())
-        raise ValueError(
+        raise KeyError(
             f"Command '{value}' does not exist. "
             f"Please ensure the command is defined in the YAML files under './strings/commands/'. "
             f"Available commands are: {available_commands}"
         )
-    
-    return commands[value].get(language, [])
+    command_list = commands[value].get(language, [])
+    if include_english and language != "en":
+        command_list += commands[value].get("en", [])
+    return command_list
 
 
-def command(cmd: str, language: str = "en") -> str:
+def command(cmd: str, language: str = "en", include_english=False) -> str:
     cmds = " ".join([f"/{c}" for c in get_command(cmd, language)])
     return cmds
 
@@ -75,6 +82,70 @@ for filename in os.listdir(r"./strings/langs/"):
             "There is some issue with the language file inside bot. Please report it to the TheTeamvk at @TheTeamvk on Telegram"
         )
         sys.exit()
+
+def cmd(commands_key: Union[str, List[str]], prefixes: Union[str, List[str]] = "/", case_sensitive: bool = False):
+    command_re = re.compile(r"([\"'])(.*?)(?<!\\)\1|(\S+)")
+    
+    async def func(flt, client: Client, message: Message):
+        username = client.me.username or ""
+        text = message.text or message.caption
+        message.command = None
+
+        if not text:
+            return False
+
+        lang_key = await get_lang(message.chat.id)
+        
+        if isinstance(commands_key, str):
+            keys = [commands_key]
+        else:
+            keys = commands_key
+
+        command_list = []
+        for key in keys:
+            try:
+                command_list += get_command(key, lang_key, include_english=True)
+            except KeyError:
+                command_list += get_command(key, "en", include_english=False)
+
+        prefixes_to_use = list(flt.prefixes)
+        if lang_key != "en" and "" not in prefixes_to_use:
+            prefixes_to_use.append("")
+
+        for prefix in prefixes_to_use:
+            if not text.startswith(prefix):
+                continue
+
+            without_prefix = text[len(prefix):]
+
+            for cmd in command_list:
+                if not re.match(rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)", without_prefix,
+                                flags=re.IGNORECASE if not flt.case_sensitive else 0):
+                    continue
+
+                without_command = re.sub(rf"{cmd}(?:@?{username})?\s?", "", without_prefix, count=1,
+                                         flags=re.IGNORECASE if not flt.case_sensitive else 0)
+
+                message.command = [cmd] + [
+                    re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
+                    for m in command_re.finditer(without_command)
+                ]
+                return True
+
+        return False
+
+    prefixes = [] if prefixes is None else prefixes
+    prefixes = prefixes if isinstance(prefixes, list) else [prefixes]
+    prefixes = set(prefixes) if prefixes else {""}
+
+    return create(
+        func,
+        "CustomCommandFilter",
+        prefixes=prefixes,
+        commands_key=commands_key,
+        case_sensitive=case_sensitive
+    )
+
 
 
 

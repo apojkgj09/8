@@ -10,9 +10,8 @@ import os
 import sys
 import re
 from typing import Union, List, Dict
-from pyrogram import Client
+from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.filters import create
 from YukkiMusic.utils.database import get_lang
 
 import yaml
@@ -85,7 +84,7 @@ for filename in os.listdir(r"./strings/langs/"):
 
 def cmd(commands_key: Union[str, List[str]], prefixes: Union[str, List[str]] = "/", case_sensitive: bool = False):
     command_re = re.compile(r"([\"'])(.*?)(?<!\\)\1|(\S+)")
-    
+
     async def func(flt, client: Client, message: Message):
         username = client.me.username or ""
         text = message.text or message.caption
@@ -95,7 +94,7 @@ def cmd(commands_key: Union[str, List[str]], prefixes: Union[str, List[str]] = "
             return False
 
         lang_key = await get_lang(message.chat.id)
-        
+
         if isinstance(commands_key, str):
             keys = [commands_key]
         else:
@@ -138,15 +137,11 @@ def cmd(commands_key: Union[str, List[str]], prefixes: Union[str, List[str]] = "
     prefixes = prefixes if isinstance(prefixes, list) else [prefixes]
     prefixes = set(prefixes) if prefixes else {""}
 
-    return create(
+    return filters.create(
         func,
         "CustomCommandFilter",
         prefixes=prefixes,
         commands_key=commands_key,
         case_sensitive=case_sensitive
     )
-
-
-
-
-
+filters.cmd = cmd

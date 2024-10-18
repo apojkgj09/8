@@ -37,7 +37,7 @@ def get_command(value: str, language: str = "en", include_english: bool = True) 
 
 
 def command(cmd: str) -> str:
-    if value not in commands:
+    if cmd not in commands:
         available_commands = ", ".join(commands.keys())
         raise KeyError(
             f"Command '{value}' does not exist. "

@@ -16,12 +16,12 @@
     "env": {
       "API_ID": {
         "description": "Get this value from https://my.telegram.org",
-        "value": "",
+        "value": "28585241",
         "required": true
       },
       "API_HASH": {
         "description": "Get this value from https://my.telegram.org",
-        "value": "",
+        "value": "f755fac1261cdebe5de4caef93459f18",
         "required": true
       },
       "BOT_TOKEN": {
@@ -36,12 +36,12 @@
       },
       "MONGO_DB_URI": {
         "description": "Get a mongodb url from https://cloud.mongodb.com . You can leave it blank if you want , bot will use Yukki's database for you.",
-        "value": "",
+        "value": "mongodb+srv://musicbot:musicbot@cluster0.o2vrudy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
         "required": false
       },
       "OWNER_ID": {
         "description": "The user id(s) of user(s) whom you would like to add as a OWNER. Multiple values shall be seperated with a space.",
-        "value": "",
+        "value": "7183518882",
         "required": true
       },
       "STRING_SESSIONS": {
@@ -51,28 +51,18 @@
       },
       "HEROKU_API_KEY": {
         "description": "Your Heroku account's API key",
-        "value": "",
+        "value": "f755fac1261cdebe5de4caef93459f18",
         "required": false
       },
       "HEROKU_APP_NAME": {
         "description": "Your heroku app/bot's name",
-        "value": "",
+        "value": "hjabaskshsk",
         "required": false
       },
       "LOG_GROUP_ID": {
         "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Use only Group. Please don't use Channel ID.",
-        "value": "",
+        "value": "-1002029014193",
         "required": true
-      },
-      "AUTO_GCAST": {
-        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄:- [On/Off] 𝐅𝐎𝐑 On/Off 𝐀𝐔𝐓𝐎 𝐆𝐂𝐀𝐒𝐓/𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐌𝐄𝐒𝐒𝐀𝐆𝐄.",
-        "value": "on",
-        "required": false
-      },
-      "AUTO_GCAST_MSG": {
-        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 𝐀𝐔𝐓𝐎 𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐌𝐄𝐒𝐒𝐀𝐆𝐄 𝐖𝐇𝐈𝐂𝐇 𝐖𝐈𝐋𝐋 𝐁𝐄 𝐀𝐔𝐓𝐎 𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓𝐄𝐃 𝐓𝐖𝐈𝐂𝐄 𝐈𝐍 𝐀 𝐃𝐀𝐘. ( 𝐀𝐍𝐘 𝐓𝐘𝐏𝐄 𝐎𝐅 𝐌𝐄𝐒𝐒𝐀𝐆𝐄 𝐘𝐎𝐔 𝐂𝐀𝐍 𝐂𝐎𝐏𝐘 𝐀𝐍𝐃 𝐏𝐀𝐒𝐓𝐄 𝐇𝐄𝐑𝐄 )",
-        "value": "",
-        "required": false
       },
       "UPSTREAM_REPO": {
         "description": "If you dont know this, Leave as it is",

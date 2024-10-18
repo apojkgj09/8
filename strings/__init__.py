@@ -55,7 +55,7 @@ def get_string(lang: str):
 for filename in os.listdir(r"./strings/cmds"):
     if filename.endswith(".yml"):
         language_code = filename[:-4]
-        with open(f"./strings/commands/{filename}", encoding="utf8") as file:
+        with open(f"./strings/cmds/{filename}", encoding="utf8") as file:
             language_commands = yaml.safe_load(file)
         for command_key, command_list in language_commands.items():
             if command_key not in commands:
